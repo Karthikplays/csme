@@ -100,12 +100,12 @@
             <!-- Slide 1: Title -->
             <div class="slide active">
                 <div class="flex flex-col justify-center items-center text-center h-[500px]">
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Rehashing in Data Structures</h1>
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Rehashing in AdvancedData Structures</h1>
                     <p class="text-xl md:text-2xl text-slate-500 mt-4">Maintaining Efficiency in Hash Tables</p>
                     <div class="mt-12 text-left w-full max-w-sm">
-                        <p class="text-xl text-slate-700"><strong>Name:</strong> [Your Name Here]</p>
-                        <p class="text-xl text-slate-700 mt-2"><strong>Roll No:</strong> [Your Roll No Here]</p>
-                        <p class="text-xl text-slate-700 mt-2"><strong>College:</strong> [Your College Name Here]</p>
+                        <p class="text-xl text-slate-700"><strong>Name:</strong> <span id="roll-na">[Your Name Here]</span></p>
+                        <p class="text-xl text-slate-700 mt-2"><strong>Roll No:</strong> <span id="roll-no">[Your Roll No Here]</span></p>
+                        <p class="text-xl text-slate-700 mt-2"><strong>College:</strong><span id="roll-nc"> [Your College Name Here]</span></p>
                     </div>
                 </div>
             </div>
@@ -382,7 +382,9 @@
             const presentationContainer = document.getElementById('presentation-container');
             const increaseFontBtn = document.getElementById('increase-font');
             const decreaseFontBtn = document.getElementById('decrease-font');
-
+            document.getElementById("roll-na").textContent = "P.Karthik";
+            document.getElementById("roll-no").textContent = "22011P0531";
+            document.getElementById("roll-nc").textContent = "JNTU-UCESTH";
             let currentSlide = 0;
             const totalSlides = slides.length;
             let currentFontSize = 1.1; // Increased default font size
