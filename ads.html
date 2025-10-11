@@ -17,7 +17,7 @@
             display: none;
             opacity: 0;
             transition: opacity 0.7s ease-in-out;
-            min-height: 450px; /* Increased min-height for bigger text */
+            min-height: 500px; /* Increased min-height for bigger text */
         }
         .slide.active {
             display: block;
@@ -99,13 +99,13 @@
             <!-- Slides will be injected here by JS -->
             <!-- Slide 1: Title -->
             <div class="slide active">
-                <div class="flex flex-col justify-center items-center text-center h-[450px]">
+                <div class="flex flex-col justify-center items-center text-center h-[500px]">
                     <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Rehashing in Data Structures</h1>
                     <p class="text-xl md:text-2xl text-slate-500 mt-4">Maintaining Efficiency in Hash Tables</p>
                     <div class="mt-12 text-left w-full max-w-sm">
-                        <p class="text-lg text-slate-700"><strong>Name:</strong> [Your Name Here]</p>
-                        <p class="text-lg text-slate-700 mt-2"><strong>Roll No:</strong> [Your Roll No Here]</p>
-                        <p class="text-lg text-slate-700 mt-2"><strong>College:</strong> [Your College Name Here]</p>
+                        <p class="text-xl text-slate-700"><strong>Name:</strong> [Your Name Here]</p>
+                        <p class="text-xl text-slate-700 mt-2"><strong>Roll No:</strong> [Your Roll No Here]</p>
+                        <p class="text-xl text-slate-700 mt-2"><strong>College:</strong> [Your College Name Here]</p>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <!-- Slide 2: What is a Hash Table? -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">First, a Quick Refresher</h2>
-                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                <div class="mt-6 text-xl text-slate-600 space-y-4">
                     <p><strong class="text-slate-700">Hash Table:</strong> A data structure that maps keys to values using a hash function. It offers very fast average time complexity for insertion, deletion, and search (O(1)).</p>
                     <p><strong class="text-slate-700">Hash Function:</strong> Computes an index from a key, determining where the value should be stored.</p>
                     <p><strong class="text-red-600">Collision:</strong> Occurs when two different keys hash to the same index. This is a natural problem we must handle (e.g., via chaining or open addressing).</p>
@@ -123,7 +123,7 @@
             <!-- Slide 3: The Problem -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">Why Do We Need Rehashing?</h2>
-                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                <div class="mt-6 text-xl text-slate-600 space-y-4">
                     <p>As more elements are inserted into a hash table, the number of collisions increases.</p>
                     <p>Too many collisions degrade performance significantly. The search time is no longer O(1) on average; it starts to approach O(n) in the worst case.</p>
                     <p class="p-4 bg-amber-100 border-l-4 border-amber-500 text-amber-800 rounded-r-lg"><strong>The Goal:</strong> Keep the hash table sparsely populated to minimize collisions and maintain O(1) performance.</p>
@@ -133,7 +133,7 @@
             <!-- Slide 4: Load Factor -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">Measuring "Fullness": The Load Factor (λ)</h2>
-                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                <div class="mt-6 text-xl text-slate-600 space-y-4">
                     <p>The Load Factor is the metric we use to decide when the table is becoming too crowded.</p>
                     <div class="my-6 p-6 bg-slate-100 rounded-xl text-center">
                         <p class="text-2xl font-mono text-slate-800">λ = n / k</p>
@@ -150,7 +150,7 @@
             <!-- Slide 5: What is Rehashing? -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">What is Rehashing?</h2>
-                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                <div class="mt-6 text-xl text-slate-600 space-y-4">
                     <p>Rehashing is the process of creating a new, larger hash table and re-inserting all the existing elements into this new table.</p>
                     <p class="font-semibold text-slate-700">Key Steps:</p>
                     <ol class="list-decimal list-inside space-y-3 mt-4">
@@ -163,12 +163,12 @@
                 </div>
             </div>
 
-            <!-- Slide 6: NEW SLIDE - Choosing the New Table Size -->
+            <!-- Slide 6: Choosing the New Table Size -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">How to Choose the New Table Size?</h2>
-                <div class="mt-6 text-lg text-slate-600 grid md:grid-cols-2 gap-8">
+                <div class="mt-6 text-xl text-slate-600 grid md:grid-cols-2 gap-8">
                     <div>
-                        <h3 class="text-xl font-semibold text-slate-700">Method 1: Doubling the Size</h3>
+                        <h3 class="text-2xl font-semibold text-slate-700">Method 1: Doubling the Size</h3>
                         <ul class="list-disc list-inside space-y-2 mt-2">
                             <li><strong>Simple & Fast:</strong> Easy to implement and computationally cheap (a multiplication or bit shift).</li>
                             <li><strong>Amortized Cost:</strong> Works very well with amortized analysis, ensuring O(1) average insertion time.</li>
@@ -176,11 +176,11 @@
                         </ul>
                     </div>
                     <div class="p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg">
-                        <h3 class="text-xl font-semibold text-indigo-800">Method 2: Next Prime Number</h3>
+                        <h3 class="text-2xl font-semibold text-indigo-800">Method 2: Next Prime Number</h3>
                          <ul class="list-disc list-inside space-y-2 mt-2">
-                            <li><strong>Better Distribution:</strong> Using a prime size helps distribute keys more uniformly, reducing collisions, especially with `key % size` hash functions.</li>
+                            <li><strong>Better Distribution:</strong> Using a prime size helps distribute keys more uniformly, reducing collisions.</li>
                             <li><strong>Reduces Clustering:</strong> Helps avoid clustering issues that can arise from non-prime table sizes.</li>
-                            <li><strong>Higher Cost:</strong> Requires a function to find the next prime number > `size * 2`, which is computationally more expensive.</li>
+                            <li><strong>Higher Cost:</strong> Requires a function to find the next prime number > `size * 2`.</li>
                         </ul>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
 
             <!-- Slide 7: Rehashing Pseudocode -->
             <div class="slide">
-                 <h2 class="text-3xl font-bold text-slate-800">Pseudocode for Rehashing</h2>
+                 <h2 class="text-3xl font-bold text-slate-800">Pseudocode: Main Rehash Logic</h2>
                  <p class="mt-2 text-slate-500">This function is called when λ > threshold.</p>
                  <div class="mt-4 text-sm md:text-base">
                  <div class="code-block">
@@ -212,11 +212,41 @@
                 </div>
                 </div>
             </div>
+            
+            <!-- Slide 8: NEW SLIDE - Helper Function Pseudocode -->
+            <div class="slide">
+                 <h2 class="text-3xl font-bold text-slate-800">Pseudocode: Helper Functions</h2>
+                 <p class="mt-2 text-slate-500">The `rehash` function needs these helpers to find the new size.</p>
+                 <div class="mt-4 grid md:grid-cols-2 gap-6 text-sm md:text-base">
+                     <div class="code-block">
+<span class="highlight-blue">// Checks if a number is prime</span>
+<span class="highlight-yellow">function</span> isPrime(num):
+  <span class="highlight-yellow">if</span> num <= 1: <span class="highlight-yellow">return</span> false
+  
+  <span class="highlight-blue">// Check from 2 up to the square root of num</span>
+  <span class="highlight-yellow">for</span> i <span class="highlight-yellow">from</span> 2 <span class="highlight-yellow">to</span> sqrt(num):
+    <span class="highlight-yellow">if</span> num % i == 0:
+      <span class="highlight-yellow">return</span> false
 
-            <!-- Slide 8: Example - Initial State -->
+  <span class="highlight-yellow">return</span> true
+                     </div>
+                     <div class="code-block">
+<span class="highlight-blue">// Finds the next prime after a given number</span>
+<span class="highlight-yellow">function</span> findNextPrime(number):
+  nextNum = number + 1
+  <span class="highlight-yellow">while</span> true:
+    <span class="highlight-yellow">if</span> isPrime(nextNum):
+      <span class="highlight-yellow">return</span> nextNum
+    nextNum = nextNum + 1
+                     </div>
+                 </div>
+            </div>
+
+
+            <!-- Slide 9: Example - Initial State -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">Example: Triggering a Rehash</h2>
-                <div class="mt-4 text-lg text-slate-600">
+                <div class="mt-4 text-xl text-slate-600">
                     <p>Let's say our <strong class="text-indigo-600">threshold λ is 0.75</strong>.</p>
                     <p>Our current hash table has <strong class="text-slate-700">size = 5</strong>.</p>
                     <p>It contains 3 elements: {12, 2, 7}. Hash function: `key % 5`</p>
@@ -234,10 +264,10 @@
                 </div>
             </div>
             
-            <!-- Slide 9: Example - Step 1 & 2 -->
+            <!-- Slide 10: Example - Step 1 & 2 -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">Trace: Step 1 & 2</h2>
-                 <div class="mt-4 text-lg text-slate-600 space-y-4">
+                 <div class="mt-4 text-xl text-slate-600 space-y-4">
                     <p><strong class="highlight-blue">Step 1:</strong> Create a new table. Old size * 2 = 10. The next prime after 10 is 11.</p>
                     <p class="ml-4">New Size = 11. New hash function: `key % 11`</p>
                     <div class="hash-table">
@@ -259,10 +289,10 @@
                  </div>
             </div>
 
-            <!-- Slide 10: Example - Re-hashing -->
+            <!-- Slide 11: Example - Re-hashing -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">Trace: Step 3 (Re-Hashing Elements)</h2>
-                 <div class="mt-4 text-lg text-slate-600 space-y-3 font-mono">
+                 <div class="mt-4 text-xl text-slate-600 space-y-3 font-mono">
                     <p>1. Take element <strong class="text-slate-800">12</strong>: new hash = 12 % 11 = <strong class="highlight-green">1</strong></p>
                     <p>2. Take element <strong class="text-slate-800">2</strong>:  new hash = 2 % 11 = <strong class="highlight-green">2</strong></p>
                     <p>3. Take element <strong class="text-slate-800">7</strong>:  new hash = 7 % 11 = <strong class="highlight-green">7</strong></p>
@@ -270,10 +300,10 @@
                  </div>
             </div>
 
-            <!-- Slide 11: Example - Final State -->
+            <!-- Slide 12: Example - Final State -->
             <div class="slide">
                  <h2 class="text-3xl font-bold text-slate-800">Trace: Step 4 (Final New Table)</h2>
-                 <div class="mt-4 text-lg text-slate-600">
+                 <div class="mt-4 text-xl text-slate-600">
                     <p>After re-hashing all elements, the new table looks like this:</p>
                     <div class="hash-table">
                         <div class="hash-cell"><span class="index">0</span></div>
@@ -293,10 +323,10 @@
                  </div>
             </div>
 
-            <!-- Slide 12: Cost of Rehashing -->
+            <!-- Slide 13: Cost of Rehashing -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">The Cost of Rehashing</h2>
-                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                <div class="mt-6 text-xl text-slate-600 space-y-4">
                     <p>Rehashing seems expensive. We have to visit every single element in the table.</p>
                     <p>The time complexity of the rehash operation itself is <strong class="text-red-600">O(n)</strong>, where 'n' is the number of elements.</p>
                     <p class="p-4 bg-green-100 border-l-4 border-green-500 text-green-800 rounded-r-lg">However, this cost is not incurred on every insertion. It happens only occasionally.</p>
@@ -304,10 +334,10 @@
                 </div>
             </div>
 
-             <!-- Slide 13: Applications -->
+             <!-- Slide 14: Applications -->
             <div class="slide">
                 <h2 class="text-3xl font-bold text-slate-800">Real-World Applications</h2>
-                 <div class="mt-6 text-lg text-slate-600 space-y-4">
+                 <div class="mt-6 text-xl text-slate-600 space-y-4">
                     <p>Rehashing is a fundamental technique used in the implementation of hash tables in many programming languages and systems:</p>
                     <ul class="list-disc list-inside space-y-3 mt-4">
                         <li><strong class="text-indigo-600">Python:</strong> Dictionaries (`dict`) and sets (`set`).</li>
@@ -319,9 +349,9 @@
                  </div>
             </div>
 
-            <!-- Slide 14: Conclusion -->
+            <!-- Slide 15: Conclusion -->
             <div class="slide">
-                <div class="flex flex-col justify-center items-center text-center h-[450px]">
+                <div class="flex flex-col justify-center items-center text-center h-[500px]">
                     <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Thank You</h1>
                     <p class="text-xl md:text-2xl text-slate-500 mt-4">Any Questions?</p>
                 </div>
@@ -335,7 +365,7 @@
                 Prev
             </button>
             <div id="slide-counter" class="text-slate-500 font-medium">
-                Slide 1 / 14
+                Slide 1 / 15
             </div>
             <button id="next-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
                 Next
