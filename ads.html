@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rehashing in Data Structures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            min-height: 400px;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+        }
+        .hash-table {
+            display: flex;
+            gap: 4px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .hash-cell {
+            border: 2px solid #64748b;
+            padding: 0.5rem;
+            min-width: 50px;
+            min-height: 50px;
+            text-align: center;
+            border-radius: 0.375rem;
+            background-color: #f8fafc;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        .hash-cell .index {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        .hash-cell.filled {
+            background-color: #c7d2fe;
+            border-color: #4f46e5;
+        }
+        .highlight-arrow {
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .highlight-red { color: #ef4444; }
+        .highlight-green { color: #22c55e; }
+        .highlight-blue { color: #3b82f6; }
+        .highlight-yellow { color: #eab308; }
+        .font-sizer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 8px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
+
+    <!-- Font Sizer Control -->
+    <div class="font-sizer z-50">
+        <span class="text-sm font-medium text-slate-600">A</span>
+        <button id="decrease-font" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold">-</button>
+        <button id="increase-font" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold">+</button>
+        <span class="text-lg font-medium text-slate-600">A</span>
+    </div>
+
+    <div id="presentation-container" class="w-full max-w-4xl bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="p-8 md:p-12">
+            <!-- Slides will be injected here by JS -->
+            <!-- Slide 1: Title -->
+            <div class="slide active">
+                <div class="flex flex-col justify-center items-center text-center h-[400px]">
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Rehashing in Data Structures</h1>
+                    <p class="text-xl md:text-2xl text-slate-500 mt-4">Maintaining Efficiency in Hash Tables</p>
+                    <div class="mt-12 text-left w-full max-w-sm">
+                        <p class="text-lg text-slate-700"><strong>Name:</strong> [Your Name Here]</p>
+                        <p class="text-lg text-slate-700 mt-2"><strong>Roll No:</strong> [Your Roll No Here]</p>
+                        <p class="text-lg text-slate-700 mt-2"><strong>College:</strong> [Your College Name Here]</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: What is a Hash Table? -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">First, a Quick Refresher</h2>
+                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                    <p><strong class="text-slate-700">Hash Table:</strong> A data structure that maps keys to values using a hash function. It offers very fast average time complexity for insertion, deletion, and search (O(1)).</p>
+                    <p><strong class="text-slate-700">Hash Function:</strong> Computes an index from a key, determining where the value should be stored.</p>
+                    <p><strong class="text-red-600">Collision:</strong> Occurs when two different keys hash to the same index. This is a natural problem we must handle (e.g., via chaining or open addressing).</p>
+                </div>
+            </div>
+            
+            <!-- Slide 3: The Problem -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">Why Do We Need Rehashing?</h2>
+                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                    <p>As more elements are inserted into a hash table, the number of collisions increases.</p>
+                    <p>Too many collisions degrade performance significantly. The search time is no longer O(1) on average; it starts to approach O(n) in the worst case.</p>
+                    <p class="p-4 bg-amber-100 border-l-4 border-amber-500 text-amber-800 rounded-r-lg"><strong>The Goal:</strong> Keep the hash table sparsely populated to minimize collisions and maintain O(1) performance.</p>
+                </div>
+            </div>
+
+            <!-- Slide 4: Load Factor -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">Measuring "Fullness": The Load Factor (λ)</h2>
+                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                    <p>The Load Factor is the metric we use to decide when the table is becoming too crowded.</p>
+                    <div class="my-6 p-6 bg-slate-100 rounded-xl text-center">
+                        <p class="text-2xl font-mono text-slate-800">λ = n / k</p>
+                        <p class="mt-4 text-slate-600">
+                            Where: <br>
+                            <span class="font-semibold">n</span> = number of elements in the table <br>
+                            <span class="font-semibold">k</span> = size of the hash table (number of slots)
+                        </p>
+                    </div>
+                    <p>We rehash when the load factor exceeds a certain predefined <strong class="text-indigo-600">threshold</strong> (commonly around 0.7 to 0.75).</p>
+                </div>
+            </div>
+
+            <!-- Slide 5: What is Rehashing? -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">What is Rehashing?</h2>
+                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                    <p>Rehashing is the process of creating a new, larger hash table and re-inserting all the existing elements into this new table.</p>
+                    <p class="font-semibold text-slate-700">Key Steps:</p>
+                    <ol class="list-decimal list-inside space-y-3 mt-4">
+                        <li>A new hash table is created, typically with <strong class="text-indigo-600">double the size</strong> of the original.</li>
+                        <li>Iterate through every element in the <strong class="text-red-500">old table</strong>.</li>
+                        <li>For each element, calculate its <strong class="text-green-500">new hash index</strong> based on the new table's size.</li>
+                        <li>Insert the element into the new table at its new position.</li>
+                        <li>Replace the old table with the new, larger table.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Slide 6: Rehashing Pseudocode -->
+            <div class="slide">
+                 <h2 class="text-3xl font-bold text-slate-800">Pseudocode for Rehashing</h2>
+                 <p class="mt-2 text-slate-500">This function is called when λ > threshold.</p>
+                 <div class="mt-4 text-sm md:text-base">
+                 <div class="code-block">
+<span class="highlight-yellow">function</span> rehash(oldTable):
+  <span class="highlight-blue">// 1. Create a new table, usually double the size</span>
+  newSize = oldTable.size * 2
+  newTable = createHashTable(newSize)
+
+  <span class="highlight-blue">// 2. Iterate through all buckets of the old table</span>
+  <span class="highlight-yellow">for each</span> bucket <span class="highlight-yellow">in</span> oldTable:
+    <span class="highlight-blue">// If using chaining, iterate through all elements in the bucket</span>
+    <span class="highlight-yellow">for each</span> element <span class="highlight-yellow">in</span> bucket:
+      <span class="highlight-blue">// 3. Calculate new hash for the new table size</span>
+      newIndex = hash(element.key) % newSize
+
+      <span class="highlight-blue">// 4. Insert into the new table</span>
+      newTable.insertAt(newIndex, element)
+    
+  <span class="highlight-blue">// 5. Replace the old table</span>
+  <span class="highlight-yellow">return</span> newTable
+                </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Example - Initial State -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">Example: Triggering a Rehash</h2>
+                <div class="mt-4 text-lg text-slate-600">
+                    <p>Let's say our <strong class="text-indigo-600">threshold λ is 0.75</strong>.</p>
+                    <p>Our current hash table has <strong class="text-slate-700">size = 5</strong>.</p>
+                    <p>It contains 3 elements: {12, 2, 7}. Hash function: `key % 5`</p>
+                    <p class="mt-2">Current Load Factor: λ = 3 / 5 = 0.6. (< 0.75, so it's OK)</p>
+                    <div class="hash-table">
+                        <div class="hash-cell"><span class="index">0</span></div>
+                        <div class="hash-cell"><span class="index">1</span></div>
+                        <div class="hash-cell filled">2 <span class="index">2</span></div>
+                        <div class="hash-cell filled">12, 7 <span class="index">3</span></div>
+                        <div class="hash-cell"><span class="index">4</span></div>
+                    </div>
+                    <p class="mt-4">Now, we insert the key <strong class="highlight-green">13</strong>. Hash is `13 % 5 = 3`.</p>
+                    <p class="mt-2 text-red-600 font-semibold">New Load Factor: λ = 4 / 5 = 0.8. ( > 0.75)</p>
+                    <p class="mt-1 text-red-600 font-semibold">This triggers a rehash!</p>
+                </div>
+            </div>
+            
+            <!-- Slide 8: Example - Step 1 & 2 -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">Trace: Step 1 & 2</h2>
+                 <div class="mt-4 text-lg text-slate-600 space-y-4">
+                    <p><strong class="highlight-blue">Step 1:</strong> Create a new table with double the size.</p>
+                    <p class="ml-4">New Size = 5 * 2 = 10. New hash function: `key % 10`</p>
+                    <div class="hash-table">
+                        <!-- New empty table -->
+                        <div class="hash-cell"><span class="index">0</span></div>
+                        <div class="hash-cell"><span class="index">1</span></div>
+                        <div class="hash-cell"><span class="index">2</span></div>
+                        <div class="hash-cell"><span class="index">3</span></div>
+                        <div class="hash-cell"><span class="index">4</span></div>
+                        <div class="hash-cell"><span class="index">5</span></div>
+                        <div class="hash-cell"><span class="index">6</span></div>
+                        <div class="hash-cell"><span class="index">7</span></div>
+                        <div class="hash-cell"><span class="index">8</span></div>
+                        <div class="hash-cell"><span class="index">9</span></div>
+                    </div>
+                    <p><strong class="highlight-blue">Step 2:</strong> Go through the old table and re-hash each element.</p>
+                    <p class="ml-4">Elements to re-hash: {12, 2, 7, 13}</p>
+                 </div>
+            </div>
+
+            <!-- Slide 9: Example - Re-hashing -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">Trace: Step 3 (Re-Hashing Elements)</h2>
+                 <div class="mt-4 text-lg text-slate-600 space-y-3 font-mono">
+                    <p>1. Take element <strong class="text-slate-800">12</strong>: new hash = 12 % 10 = <strong class="highlight-green">2</strong></p>
+                    <p>2. Take element <strong class="text-slate-800">2</strong>:  new hash = 2 % 10 = <strong class="highlight-green">2</strong> (collision with 12, chained)</p>
+                    <p>3. Take element <strong class="text-slate-800">7</strong>:  new hash = 7 % 10 = <strong class="highlight-green">7</strong></p>
+                    <p>4. Take element <strong class="text-slate-800">13</strong>: new hash = 13 % 10 = <strong class="highlight-green">3</strong></p>
+                 </div>
+            </div>
+
+            <!-- Slide 10: Example - Final State -->
+            <div class="slide">
+                 <h2 class="text-3xl font-bold text-slate-800">Trace: Step 4 (Final New Table)</h2>
+                 <div class="mt-4 text-lg text-slate-600">
+                    <p>After re-hashing all elements, the new table looks like this:</p>
+                    <div class="hash-table">
+                        <div class="hash-cell"><span class="index">0</span></div>
+                        <div class="hash-cell"><span class="index">1</span></div>
+                        <div class="hash-cell filled">12, 2<span class="index">2</span></div>
+                        <div class="hash-cell filled">13<span class="index">3</span></div>
+                        <div class="hash-cell"><span class="index">4</span></div>
+                        <div class="hash-cell"><span class="index">5</span></div>
+                        <div class="hash-cell"><span class="index">6</span></div>
+                        <div class="hash-cell filled">7<span class="index">7</span></div>
+                        <div class="hash-cell"><span class="index">8</span></div>
+                        <div class="hash-cell"><span class="index">9</span></div>
+                    </div>
+                    <p class="mt-4">New Load Factor: λ = 4 / 10 = 0.4. (Healthy!)</p>
+                    <p class="mt-2 text-green-600 font-semibold">Collisions are better distributed, and performance is restored.</p>
+                 </div>
+            </div>
+
+            <!-- Slide 11: Cost of Rehashing -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">The Cost of Rehashing</h2>
+                <div class="mt-6 text-lg text-slate-600 space-y-4">
+                    <p>Rehashing seems expensive. We have to visit every single element in the table.</p>
+                    <p>The time complexity of the rehash operation itself is <strong class="text-red-600">O(n)</strong>, where 'n' is the number of elements.</p>
+                    <p class="p-4 bg-green-100 border-l-4 border-green-500 text-green-800 rounded-r-lg">However, this cost is not incurred on every insertion. It happens only occasionally.</p>
+                    <p><strong class="text-slate-700">Amortized Analysis:</strong> When we average the cost of rehashing over a long sequence of insertions, the average cost per insertion remains <strong class="text-green-600">O(1)</strong>. The expensive O(n) operation is "paid for" by many cheap O(1) operations.</p>
+                </div>
+            </div>
+
+             <!-- Slide 12: Applications -->
+            <div class="slide">
+                <h2 class="text-3xl font-bold text-slate-800">Real-World Applications</h2>
+                 <div class="mt-6 text-lg text-slate-600 space-y-4">
+                    <p>Rehashing is a fundamental technique used in the implementation of hash tables in many programming languages and systems:</p>
+                    <ul class="list-disc list-inside space-y-3 mt-4">
+                        <li><strong class="text-indigo-600">Python:</strong> Dictionaries (`dict`) and sets (`set`).</li>
+                        <li><strong class="text-indigo-600">Java:</strong> `HashMap`, `HashSet`, and `Hashtable`.</li>
+                        <li><strong class="text-indigo-600">C++:</strong> `std::unordered_map` and `std::unordered_set`.</li>
+                        <li><strong class="text-indigo-600">JavaScript:</strong> `Map` objects and plain `Object` literals.</li>
+                        <li><strong class="text-indigo-600">Databases:</strong> For indexing and caching mechanisms.</li>
+                    </ul>
+                 </div>
+            </div>
+
+            <!-- Slide 13: Conclusion -->
+            <div class="slide">
+                <div class="flex flex-col justify-center items-center text-center h-[400px]">
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Thank You</h1>
+                    <p class="text-xl md:text-2xl text-slate-500 mt-4">Any Questions?</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation -->
+        <div class="bg-slate-100 p-4 flex justify-between items-center">
+            <button id="prev-btn" class="px-6 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 font-semibold hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                Prev
+            </button>
+            <div id="slide-counter" class="text-slate-500 font-medium">
+                Slide 1 / 13
+            </div>
+            <button id="next-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            const presentationContainer = document.getElementById('presentation-container');
+            const increaseFontBtn = document.getElementById('increase-font');
+            const decreaseFontBtn = document.getElementById('decrease-font');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let currentFontSize = 1; // 1 represents 100%
+
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+
+                // Update counter
+                slideCounter.textContent = `Slide ${currentSlide + 1} / ${totalSlides}`;
+
+                // Update button states
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+            }
+
+            function changeFontSize(direction) {
+                 const newSize = currentFontSize + (direction * 0.1);
+                 // Set reasonable limits for font size
+                 if (newSize >= 0.7 && newSize <= 1.5) {
+                    currentFontSize = newSize;
+                    presentationContainer.style.fontSize = `${currentFontSize}rem`;
+                 }
+            }
+            
+            // Event Listeners for navigation
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Event Listeners for font size
+            increaseFontBtn.addEventListener('click', () => changeFontSize(1));
+            decreaseFontBtn.addEventListener('click', () => changeFontSize(-1));
+
+            // Initial setup
+            updateSlide();
+            presentationContainer.style.fontSize = `${currentFontSize}rem`;
+        });
+    </script>
+</body>
+</html>
