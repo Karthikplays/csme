@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rehashing in Data Structures</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 60px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: block;
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h2 {
+            font-size: 2.8em;
+            color: #667eea;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #764ba2;
+            padding-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 2em;
+            color: #764ba2;
+            margin: 25px 0 15px 0;
+        }
+
+        p, li {
+            font-size: 1.4em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .student-info {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+        }
+
+        .info-field {
+            font-size: 1.3em;
+            margin: 15px 0;
+            color: #555;
+            border-bottom: 2px dotted #999;
+            padding-bottom: 10px;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #68d391;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 20px 0;
+            overflow-x: auto;
+            animation: fadeIn 1s ease;
+        }
+
+        .keyword {
+            color: #f687b3;
+        }
+
+        .comment {
+            color: #90cdf4;
+        }
+
+        .highlight-box {
+            background: #fef5e7;
+            border-left: 5px solid #f39c12;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            border: 3px solid #4caf50;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            animation: fadeIn 1.4s ease;
+        }
+
+        ul {
+            margin-left: 40px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-number {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+            z-index: 1000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-visual {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .table-cell {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.3em;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .table-cell.filled {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+
+        .table-cell.collision {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="slide-number" id="slideNumber">1 / 12</div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Rehashing in Data Structures</h1>
+            <p style="text-align: center; font-size: 1.6em; color: #666; margin-top: 40px;">
+                An In-Depth Study of Hash Table Optimization
+            </p>
+            
+            <div class="student-info">
+                <div class="info-field"><strong>Student Name:</strong> _________________________________</div>
+                <div class="info-field"><strong>Roll Number:</strong> _________________________________</div>
+                <div class="info-field"><strong>College Name:</strong> _________________________________</div>
+                <div class="info-field"><strong>Department:</strong> _________________________________</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Introduction -->
+        <div class="slide">
+            <h2>Introduction to Hash Tables</h2>
+            <p>Hash tables are fundamental data structures that provide efficient data retrieval through key-value mapping.</p>
+            
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li><strong>Hash Function:</strong> Maps keys to array indices</li>
+                <li><strong>Load Factor:</strong> Ratio of stored elements to table size</li>
+                <li><strong>Collision:</strong> When two keys hash to the same index</li>
+                <li><strong>Performance:</strong> Average O(1) for search, insert, delete</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>Problem:</strong> As more elements are inserted, collisions increase and performance degrades!
+            </div>
+        </div>
+
+        <!-- Slide 3: What is Rehashing -->
+        <div class="slide">
+            <h2>What is Rehashing?</h2>
+            <p><strong>Rehashing</strong> is the process of creating a new, larger hash table and redistributing all existing elements into it using a new hash function.</p>
+            
+            <h3>Why Do We Need Rehashing?</h3>
+            <ul>
+                <li><strong>Maintain Performance:</strong> Keep operations at O(1) average time</li>
+                <li><strong>Reduce Collisions:</strong> More space means fewer conflicts</li>
+                <li><strong>Optimal Load Factor:</strong> Typically trigger when load factor > 0.7</li>
+                <li><strong>Dynamic Growth:</strong> Adapt to data size requirements</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Load Factor = Number of Elements / Table Size</strong></p>
+                <p>When load factor exceeds threshold (commonly 0.7), rehashing is triggered!</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: When to Rehash -->
+        <div class="slide">
+            <h2>When to Trigger Rehashing?</h2>
+            
+            <div class="example-box">
+                <h3>Typical Scenarios:</h3>
+                <ul>
+                    <li><strong>Load Factor Threshold:</strong> Most common trigger (λ > 0.7)</li>
+                    <li><strong>Fixed Intervals:</strong> After N insertions</li>
+                    <li><strong>Performance Degradation:</strong> When operations become slow</li>
+                    <li><strong>Manual Trigger:</strong> Application-specific requirements</li>
+                </ul>
+            </div>
+
+            <h3>New Table Size:</h3>
+            <p>Typically double the current size and find the next prime number:</p>
+            <ul>
+                <li>Old size: 7 → New size: 17</li>
+                <li>Old size: 17 → New size: 37</li>
+                <li>Prime numbers reduce clustering and collisions</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Rehashing Process -->
+        <div class="slide">
+            <h2>The Rehashing Process</h2>
+            
+            <h3>Step-by-Step:</h3>
+            <div class="highlight-box">
+                <ol style="font-size: 1.3em;">
+                    <li><strong>Detect:</strong> Check if load factor exceeds threshold</li>
+                    <li><strong>Allocate:</strong> Create a new, larger hash table</li>
+                    <li><strong>Transfer:</strong> Recompute hash for each element</li>
+                    <li><strong>Insert:</strong> Place elements in new positions</li>
+                    <li><strong>Replace:</strong> Old table is replaced by new table</li>
+                </ol>
+            </div>
+
+            <p style="margin-top: 30px;"><strong>Time Complexity:</strong> O(n) where n is the number of elements</p>
+            <p><strong>Amortized Cost:</strong> O(1) per insertion over time</p>
+        </div>
+
+        <!-- Slide 6: Pseudo Code -->
+        <div class="slide">
+            <h2>Rehashing Pseudo Code</h2>
+            
+            <div class="code-block">
+<span class="keyword">function</span> insert(key, value):
+    <span class="comment">// Check if rehashing is needed</span>
+    <span class="keyword">if</span> (size / capacity) > LOAD_FACTOR_THRESHOLD:
+        rehash()
+    
+    <span class="comment">// Insert the key-value pair</span>
+    index = hashFunction(key) % capacity
+    table[index] = (key, value)
+    size++
+
+<span class="keyword">function</span> rehash():
+    oldTable = table
+    oldCapacity = capacity
+    
+    <span class="comment">// Create new table with double size</span>
+    capacity = nextPrime(capacity * 2)
+    table = <span class="keyword">new</span> Array[capacity]
+    size = 0
+    
+    <span class="comment">// Transfer all elements to new table</span>
+    <span class="keyword">for each</span> element in oldTable:
+        <span class="keyword">if</span> element is not null:
+            insert(element.key, element.value)
+            </div>
+        </div>
+
+        <!-- Slide 7: Example Setup -->
+        <div class="slide">
+            <h2>Example: Initial Hash Table</h2>
+            
+            <p><strong>Setup:</strong></p>
+            <ul>
+                <li>Table Size: 7</li>
+                <li>Hash Function: h(key) = key % 7</li>
+                <li>Load Factor Threshold: 0.7</li>
+                <li>Current Elements: 0</li>
+            </ul>
+
+            <h3>Initial Empty Table:</h3>
+            <div class="table-visual">
+                <div class="table-cell">0: —</div>
+                <div class="table-cell">1: —</div>
+                <div class="table-cell">2: —</div>
+                <div class="table-cell">3: —</div>
+                <div class="table-cell">4: —</div>
+                <div class="table-cell">5: —</div>
+                <div class="table-cell">6: —</div>
+            </div>
+
+            <p style="margin-top: 30px;"><strong>Let's insert keys:</strong> 10, 22, 31, 4, 15, 28</p>
+        </div>
+
+        <!-- Slide 8: Insertions Before Rehash -->
+        <div class="slide">
+            <h2>Insertions Before Rehashing</h2>
+            
+            <div class="example-box">
+                <p><strong>Insert 10:</strong> h(10) = 10 % 7 = 3</p>
+                <p><strong>Insert 22:</strong> h(22) = 22 % 7 = 1</p>
+                <p><strong>Insert 31:</strong> h(31) = 31 % 7 = 3 (collision!)</p>
+                <p><strong>Insert 4:</strong> h(4) = 4 % 7 = 4</p>
+                <p><strong>Insert 15:</strong> h(15) = 15 % 7 = 1 (collision!)</p>
+            </div>
+
+            <h3>Table After 5 Insertions (using linear probing):</h3>
+            <div class="table-visual">
+                <div class="table-cell">0: —</div>
+                <div class="table-cell filled">1: 22</div>
+                <div class="table-cell filled">2: 15</div>
+                <div class="table-cell filled">3: 10</div>
+                <div class="table-cell filled collision">4: 31</div>
+                <div class="table-cell filled">5: 4</div>
+                <div class="table-cell">6: —</div>
+            </div>
+
+            <p style="margin-top: 20px;"><strong>Load Factor = 5/7 = 0.71 > 0.7 → REHASH TRIGGERED!</strong></p>
+        </div>
+
+        <!-- Slide 9: Rehashing Process -->
+        <div class="slide">
+            <h2>Rehashing in Action</h2>
+            
+            <h3>Step 1: Create New Table</h3>
+            <p>New capacity = nextPrime(7 * 2) = 17</p>
+            <p>New hash function: h(key) = key % 17</p>
+
+            <h3>Step 2: Reinsert All Elements</h3>
+            <div class="example-box">
+                <p><strong>22:</strong> h(22) = 22 % 17 = 5</p>
+                <p><strong>15:</strong> h(15) = 15 % 17 = 15</p>
+                <p><strong>10:</strong> h(10) = 10 % 17 = 10</p>
+                <p><strong>31:</strong> h(31) = 31 % 17 = 14</p>
+                <p><strong>4:</strong> h(4) = 4 % 17 = 4</p>
+            </div>
+
+            <p style="margin-top: 20px; color: #4caf50; font-weight: bold;">Notice: No collisions in the new table!</p>
+        </div>
+
+        <!-- Slide 10: After Rehashing -->
+        <div class="slide">
+            <h2>New Hash Table After Rehashing</h2>
+            
+            <h3>New Table (Size = 17):</h3>
+            <div class="table-visual" style="max-width: 100%;">
+                <div class="table-cell">0: —</div>
+                <div class="table-cell">1: —</div>
+                <div class="table-cell">2: —</div>
+                <div class="table-cell">3: —</div>
+                <div class="table-cell filled">4: 4</div>
+                <div class="table-cell filled">5: 22</div>
+                <div class="table-cell">6: —</div>
+                <div class="table-cell">7: —</div>
+                <div class="table-cell">8: —</div>
+                <div class="table-cell">9: —</div>
+                <div class="table-cell filled">10: 10</div>
+                <div class="table-cell">11: —</div>
+                <div class="table-cell">12: —</div>
+                <div class="table-cell">13: —</div>
+                <div class="table-cell filled">14: 31</div>
+                <div class="table-cell filled">15: 15</div>
+                <div class="table-cell">16: —</div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 30px;">
+                <p><strong>New Load Factor = 5/17 = 0.29</strong></p>
+                <p>✓ Better space distribution</p>
+                <p>✓ Reduced collision probability</p>
+                <p>✓ Improved performance for future operations</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: Applications -->
+        <div class="slide">
+            <h2>Real-World Applications</h2>
+            
+            <h3>Where Rehashing is Critical:</h3>
+            <ul>
+                <li><strong>Database Indexing:</strong> Maintaining fast query performance</li>
+                <li><strong>Caching Systems:</strong> Redis, Memcached use dynamic hash tables</li>
+                <li><strong>Symbol Tables:</strong> Compilers and interpreters</li>
+                <li><strong>Network Routing:</strong> IP address lookup tables</li>
+                <li><strong>Spell Checkers:</strong> Dictionary implementations</li>
+                <li><strong>Programming Languages:</strong> Python dicts, Java HashMaps</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Example:</strong> Python's dictionary automatically rehashes when load factor exceeds 2/3 (approximately 0.67)</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Conclusion -->
+        <div class="slide">
+            <h2>Conclusion</h2>
+            
+            <h3>Key Takeaways:</h3>
+            <ul>
+                <li>Rehashing maintains O(1) performance in hash tables</li>
+                <li>Triggered when load factor exceeds threshold (typically 0.7)</li>
+                <li>Creates larger table and redistributes all elements</li>
+                <li>Amortized cost is O(1) despite O(n) rehashing operation</li>
+                <li>Essential for dynamic data structures in real applications</li>
+            </ul>
+
+            <div class="example-box" style="margin-top: 40px;">
+                <h3 style="color: #4caf50;">Remember:</h3>
+                <p style="font-size: 1.5em;">Rehashing is a trade-off between space and time efficiency. It sacrifices temporary performance during rehashing to maintain long-term optimal performance.</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 40px; font-size: 1.8em; color: #667eea;">
+                <strong>Thank You!</strong>
+            </p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('slideNumber').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
