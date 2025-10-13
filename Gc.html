@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML in Grid Computing - Presentation</title>
+    <style>
+        :root {
+            /* Presentation Theme Colors */
+            --bg-primary: #1a237e; /* Dark navy blue */
+            --bg-secondary: #283593; /* Medium blue */
+            --bg-slide: #ffffff;
+            --text-primary: #ffffff;
+            --text-secondary: #e8eaf6;
+            --accent-color: #3f51b5;
+            --accent-hover: #5c6bc0;
+            --border-color: #9fa8da;
+            
+            /* Typography */
+            --font-family: 'Arial', 'Helvetica', sans-serif;
+            --font-size-title: 40px;
+            --font-size-heading: 32px;
+            --font-size-body: 24px;
+            --font-size-nav: 18px;
+            
+            /* Spacing */
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 32px;
+            --space-xl: 48px;
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .presentation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: var(--space-md);
+        }
+        
+        .slide-container {
+            flex: 1;
+            background: var(--bg-slide);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: var(--space-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            padding: var(--space-xl);
+            height: 100%;
+            color: #1a237e;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .slide-title {
+            font-size: var(--font-size-title);
+            font-weight: bold;
+            color: var(--bg-primary);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .slide-subtitle {
+            font-size: var(--font-size-heading);
+            color: var(--bg-secondary);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        
+        .slide-heading {
+            font-size: var(--font-size-heading);
+            font-weight: bold;
+            color: var(--bg-primary);
+            margin-bottom: var(--space-lg);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: var(--space-sm);
+        }
+        
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .content-list li {
+            font-size: var(--font-size-body);
+            line-height: 1.4;
+            margin-bottom: var(--space-md);
+            padding-left: var(--space-lg);
+            position: relative;
+            color: #333;
+        }
+        
+        .content-list li:before {
+            content: '▶';
+            color: var(--accent-color);
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        
+        .title-slide .slide-content {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .title-note {
+            font-size: var(--font-size-body);
+            color: var(--bg-secondary);
+            font-style: italic;
+            margin-top: var(--space-xl);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--space-md);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-button {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            border: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 6px;
+            font-size: var(--font-size-nav);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+            min-width: 100px;
+        }
+        
+        .nav-button:hover:not(:disabled) {
+            background: var(--accent-hover);
+        }
+        
+        .nav-button:disabled {
+            background: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .slide-counter {
+            font-size: var(--font-size-nav);
+            font-weight: 500;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 4px;
+        }
+        
+        .keyboard-hint {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin: 0 var(--space-sm);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                --font-size-title: 32px;
+                --font-size-heading: 28px;
+                --font-size-body: 20px;
+            }
+            
+            .presentation-container {
+                padding: var(--space-sm);
+            }
+            
+            .slide {
+                padding: var(--space-md);
+            }
+            
+            .content-list li {
+                margin-bottom: var(--space-sm);
+            }
+            
+            .keyboard-hint {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            :root {
+                --font-size-title: 28px;
+                --font-size-heading: 24px;
+                --font-size-body: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-container">
+            <!-- Slide 1: Title Slide -->
+            <div class="slide title-slide active" data-slide="1">
+                <div class="slide-content">
+                    <h1 class="slide-title">Security Assertion Markup Language (SAML) in Grid Computing</h1>
+                    <h2 class="slide-subtitle">Federated Identity and Authorization for Distributed Systems</h2>
+                    <p class="title-note">Comprehensive technical presentation on SAML implementation in grid environments</p>
+                </div>
+            </div>
+            
+            <!-- Slide 2: What is SAML? -->
+            <div class="slide" data-slide="2">
+                <h2 class="slide-heading">What is SAML?</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>XML-based open standard for exchanging authentication and authorization statements</li>
+                        <li>Enables Single Sign-On (SSO) and federated identity across domains</li>
+                        <li>SAML 2.0 is the current widely adopted standard</li>
+                        <li>Separates authentication (Identity Provider) from authorization (Service Provider)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Why SAML Matters -->
+            <div class="slide" data-slide="3">
+                <h2 class="slide-heading">Why SAML Matters in Grid Computing</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>Grid resources span multiple administrative domains and institutions</li>
+                        <li>Enables researchers to use home institution credentials everywhere</li>
+                        <li>Reduces credential sprawl across multiple computing sites</li>
+                        <li>Supports Virtual Organization (VO) collaboration models</li>
+                        <li>Enables scalable cross-domain resource access</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 4: Core Components -->
+            <div class="slide" data-slide="4">
+                <h2 class="slide-heading">SAML Core Components</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>Identity Provider (IdP): Authenticates users and issues assertions</li>
+                        <li>Service Provider (SP): Protects resources and consumes assertions</li>
+                        <li>Assertions: XML documents containing security statements</li>
+                        <li>Three statement types: Authentication, Attribute, Authorization Decision</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 5: Assertion Types -->
+            <div class="slide" data-slide="5">
+                <h2 class="slide-heading">SAML Assertion Types</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>Authentication Statement: Proves user was authenticated (when, how)</li>
+                        <li>Attribute Statement: Conveys user attributes (roles, VO membership)</li>
+                        <li>Authorization Decision Statement: Allow/deny decisions for resources</li>
+                        <li>All assertions secured with XML Digital Signatures for integrity</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 6: Authentication Flow -->
+            <div class="slide" data-slide="6">
+                <h2 class="slide-heading">How SAML Works - The Authentication Flow</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>1. User requests protected resource at Service Provider</li>
+                        <li>2. SP redirects to Identity Provider with AuthnRequest</li>
+                        <li>3. IdP authenticates user (password, MFA, PKI certificates)</li>
+                        <li>4. IdP sends signed SAML Response with Assertion to SP</li>
+                        <li>5. SP validates signature and grants access based on attributes</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 7: Grid Environments -->
+            <div class="slide" data-slide="7">
+                <h2 class="slide-heading">SAML in Grid Environments</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>Integrates with Grid Security Infrastructure (GSI)</li>
+                        <li>Bridges to X.509 certificate-based grid authentication</li>
+                        <li>Supports both web browser and command-line workflows</li>
+                        <li>Enables federated access across HPC centers and data portals</li>
+                        <li>Works with Virtual Organization membership management</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 8: Security Features -->
+            <div class="slide" data-slide="8">
+                <h2 class="slide-heading">Security Features</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>XML Digital Signatures ensure integrity and authenticity</li>
+                        <li>XML Encryption provides confidentiality when needed</li>
+                        <li>Time-based conditions prevent replay attacks</li>
+                        <li>Audience restrictions prevent assertion misuse</li>
+                        <li>Subject confirmation methods (bearer, holder-of-key)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 9: Security Best Practices & Implementation -->
+            <div class="slide" data-slide="9">
+                <h2 class="slide-heading">Security Best Practices &amp; Implementation</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>Always validate signatures against trusted IdP certificates</li>
+                        <li>Enforce time conditions and audience restrictions strictly</li>
+                        <li>Use secure XML parsers resistant to injection attacks</li>
+                        <li>Choose appropriate federation (InCommon, eduGAIN)</li>
+                        <li>Define minimal required attribute set for authorization</li>
+                        <li>Integrate with legacy grid middleware (GSI, MyProxy)</li>
+                        <li>Support Enhanced Client Profile (ECP) for CLI access</li>
+                        <li>Log assertion IDs for auditing and incident response</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 10: Common Challenges & Solutions -->
+            <div class="slide" data-slide="10">
+                <h2 class="slide-heading">Common Challenges &amp; Solutions</h2>
+                <div class="slide-content">
+                    <ul class="content-list">
+                        <li>Signature validation failures → Update federation metadata</li>
+                        <li>Time synchronization issues → Deploy NTP across all sites</li>
+                        <li>Attribute mapping problems → Coordinate standards with IdPs</li>
+                        <li>XML parsing vulnerabilities → Use hardened XML libraries</li>
+                        <li>Legacy system integration → Implement automated X.509 bridging</li>
+                        <li>Certificate rotation issues → Automate metadata management</li>
+                        <li>Trust model complexity → Use federation trust frameworks</li>
+                    </ul>
+                </div>
+            </div>
+            
+
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <div class="keyboard-hint">Use arrow keys to navigate</div>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">12</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlideIndex = 1;
+        const totalSlides = 10;
+        
+        function updateSlideDisplay() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show current slide
+            const currentSlide = document.querySelector(`[data-slide="${currentSlideIndex}"]`);
+            if (currentSlide) {
+                currentSlide.classList.add('active');
+            }
+            
+            // Update counter
+            document.getElementById('currentSlide').textContent = currentSlideIndex;
+            
+            // Update button states
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentSlideIndex === 1;
+            nextBtn.disabled = currentSlideIndex === totalSlides;
+        }
+        
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            
+            if (newIndex >= 1 && newIndex <= totalSlides) {
+                currentSlideIndex = newIndex;
+                updateSlideDisplay();
+            }
+        }
+        
+        function goToSlide(slideNumber) {
+            if (slideNumber >= 1 && slideNumber <= totalSlides) {
+                currentSlideIndex = slideNumber;
+                updateSlideDisplay();
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    event.preventDefault();
+                    changeSlide(-1);
+                    break;
+                case 'ArrowRight':
+                case 'ArrowDown':
+                case ' ': // Spacebar
+                    event.preventDefault();
+                    changeSlide(1);
+                    break;
+                case 'Home':
+                    event.preventDefault();
+                    goToSlide(1);
+                    break;
+                case 'End':
+                    event.preventDefault();
+                    goToSlide(totalSlides);
+                    break;
+                case 'Escape':
+                    // Could be used for full-screen toggle if needed
+                    break;
+            }
+        });
+        
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', function(event) {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', function(event) {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - previous slide
+                    changeSlide(-1);
+                } else {
+                    // Swipe left - next slide
+                    changeSlide(1);
+                }
+            }
+        }
+        
+        // Initialize presentation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalSlides').textContent = totalSlides;
+            updateSlideDisplay();
+            
+            // Focus management for accessibility
+            document.body.setAttribute('tabindex', '-1');
+            document.body.focus();
+        });
+        
+        // Prevent context menu on right-click for cleaner presentation
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
