@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Contract Security</title>
+    <title>Smart Contract Security (Concise)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Light blue-gray background */
+            background-color: #f0f4f8;
         }
         .slide {
             display: none;
@@ -36,12 +36,6 @@
             gap: 8px;
             z-index: 50;
         }
-        .stone-text {
-            font-weight: 800; /* Extra-bold */
-            color: #44403c; /* Stone color */
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.2), 
-                         -1px -1px 1px rgba(255,255,255,0.5);
-        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
@@ -61,261 +55,158 @@
             <div class="slide active">
                 <div class="flex flex-col justify-center items-center text-center h-[550px]">
                     <img src="https://placehold.co/150x150/3b82f6/ffffff?text=🛡️" alt="Digital Fortress Icon" class="rounded-full mb-6">
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Safeguarding the Unstoppable: A Deep Dive into Smart Contract Security</h1>
-                    <p class="text-xl md:text-2xl text-slate-500 mt-4">Understanding Risks and Building Resilient Decentralized Applications</p>
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Safeguarding the Unstoppable</h1>
+                    <p class="text-xl md:text-2xl text-slate-500 mt-4">A Simple Guide to Smart Contract Security</p>
                 </div>
             </div>
 
-            <!-- Slide 2: Defining Core Components -->
+            <!-- Slide 2: What is a Smart Contract? -->
             <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">The Building Blocks of Web3</h2>
-                <div class="mt-8 grid md:grid-cols-2 gap-12 items-center">
-                    <div class="text-center p-6 border border-slate-200 rounded-lg">
-                        <h3 class="text-4xl font-bold text-indigo-600">Smart Contract</h3>
-                        <p class="mt-4 text-xl">A self-executing program that automates an agreement.</p>
-                        <p class="mt-2 text-lg text-slate-500">"If-Then" logic coded on a blockchain.</p>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">What is a Smart Contract?</h2>
+                <div class="mt-10 grid md:grid-cols-2 gap-10 items-center">
+                    <div class="text-center">
+                        <img src="https://placehold.co/400x200/e0e7ff/4338ca?text=Code+on+a+Blockchain" class="rounded-lg mx-auto" alt="Code on Blockchain">
                     </div>
-                    <div class="text-center p-6 border border-slate-200 rounded-lg">
-                        <h3 class="text-4xl font-bold text-teal-600">DApp</h3>
-                        <p class="mt-4 text-xl">A user-facing application built on one or more smart contracts.</p>
-                        <p class="mt-2 text-lg text-slate-500">Decentralized "backend" on the blockchain.</p>
+                    <div class="text-xl text-slate-700 space-y-4">
+                        <p>It's like a traditional contract, but it's <strong class="text-indigo-600">fully digital and self-executing</strong>.</p>
+                        <p>The rules ("if-then" logic) are written in code and stored on a blockchain.</p>
+                        <p>It runs automatically without needing a middleman.</p>
                     </div>
                 </div>
             </div>
             
-            <!-- Slide 3: The Value Proposition -->
+            <!-- Slide 3: The Power and the Peril -->
             <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">The Power of Decentralization</h2>
-                <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">⚙️</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Automation</h3>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">🛡️</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Security</h3>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">📖</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Transparency</h3>
-                    </div>
-                     <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">⏱️</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Efficiency</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 4: The Inherent Risk -->
-            <div class="slide">
-                 <div class="flex flex-col justify-center items-center text-center h-[550px]">
-                    <h2 class="text-4xl font-bold text-slate-800">The Double-Edged Sword of Immutability</h2>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">The Power and the Peril: Immutability</h2>
+                 <div class="mt-10 flex flex-col justify-center items-center text-center h-[450px]">
                     <img src="https://placehold.co/400x150/fecaca/dc2626?text=🔗🔒❗" alt="Blockchain with red padlock" class="my-8 rounded-lg">
-                    <p class="text-6xl font-extrabold text-red-600">"No Undo Button"</p>
+                    <p class="text-4xl font-bold text-slate-800">Once deployed, the code <strong class="text-red-600">CANNOT</strong> be changed.</p>
+                    <p class="mt-4 text-2xl text-slate-600">This is great for trust, but it also means bugs are permanent.</p>
+                     <p class="mt-2 text-5xl font-extrabold text-red-600">There is no "undo" button.</p>
                 </div>
             </div>
 
-            <!-- Slide 5: "Code is Law" Philosophy -->
+            <!-- Slide 4: Case Study: The DAO Hack -->
             <div class="slide">
-                 <div class="flex flex-col justify-center items-center text-center h-[550px]">
-                    <h2 class="text-4xl font-bold text-slate-800">The Doctrine: "Code is Law"</h2>
-                    <p class="text-7xl stone-text my-8">Code is Law</p>
-                    <blockquote class="text-xl text-slate-600 italic border-l-4 border-slate-300 pl-6 max-w-3xl">
-                        "A future can exist where all agreements between people are ultimately governed not by corruptible institutions but by the cold hard logic of Smart Contract code."
-                    </blockquote>
-                 </div>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">Case Study: The DAO Hack (2016)</h2>
+                <div class="mt-10 text-center">
+                     <img src="https://placehold.co/500x150/fee2e2/b91c1c?text=System-Wide+Crisis" alt="Crisis Icon" class="rounded-lg mx-auto">
+                    <div class="mt-8 text-2xl text-slate-700 space-y-4 max-w-3xl mx-auto">
+                        <p>A decentralized investment fund raised <strong class="text-slate-800">$150 million</strong>, holding 14% of all ETH at the time.</p>
+                        <p>A hacker exploited a single bug to drain <strong class="text-red-600">$60 million</strong>.</p>
+                        <p>This event threatened the entire Ethereum network and forced a controversial "rollback" of the blockchain.</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Slide 6: The Reality Check -->
+            <!-- Slide 5: The Attack: Re-entrancy Explained -->
             <div class="slide">
-                <div class="flex flex-col justify-center items-center text-center h-[550px]">
-                    <h2 class="text-4xl font-bold text-slate-800">The Reality Check: Law is Law</h2>
-                    <img src="https://placehold.co/400x150/94a3b8/0f172a?text=⚖️💥" alt="Gavel cracking stone" class="my-8 rounded-lg">
-                    <div class="text-3xl font-semibold text-slate-700 space-y-4">
-                        <p>Code does not exist in a legal vacuum.</p>
-                        <p>Real-world law prioritizes human intent.</p>
-                        <p>Exploiting a bug can be legally defined as theft or fraud.</p>
-                    </div>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">The Attack: Re-entrancy Explained</h2>
+                <p class="text-center mt-2 text-xl text-slate-500">How the hacker tricked the contract.</p>
+                <div class="mt-8 p-6 bg-slate-50 rounded-lg max-w-3xl mx-auto">
+                    <ol class="list-decimal list-inside space-y-3 text-xl text-slate-700">
+                        <li>Hacker's contract asks to withdraw funds.</li>
+                        <li>The DAO contract checks balance (<strong class="text-green-600">OK!</strong>) and sends the money.</li>
+                        <li class="p-3 bg-red-100 border-l-4 border-red-500 rounded-r-lg">
+                            <strong class="text-red-700">THE TRICK:</strong> Before The DAO could update the balance to zero, the hacker's contract "re-entered" and asked to withdraw <strong class="text-red-700">AGAIN</strong>.
+                        </li>
+                        <li>The DAO contract checks the balance again—it's still not updated! So it sends money again.</li>
+                        <li>This loop repeated until millions were drained.</li>
+                    </ol>
                 </div>
             </div>
             
-            <!-- Slide 7: Anatomy of a Catastrophe -->
+            <!-- Slide 6: The Golden Rule: How to Stop It -->
             <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800">Anatomy of a Catastrophe: The DAO Hack</h2>
-                <div class="mt-8 relative border-l-4 border-indigo-300 pl-8 space-y-12">
-                    <div class="relative">
-                        <div class="absolute -left-10 top-0 w-6 h-6 bg-indigo-500 rounded-full border-4 border-white"></div>
-                        <h3 class="text-xl font-semibold text-indigo-700">April 2016: The DAO Launches</h3>
-                        <p class="text-lg text-slate-600">Raises ~$150M in ETH.</p>
-                        <p class="mt-2 p-2 bg-amber-100 text-amber-800 rounded font-bold">Key Fact: Held ~14% of all ETH in circulation.</p>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute -left-10 top-0 w-6 h-6 bg-red-500 rounded-full border-4 border-white"></div>
-                        <h3 class="text-xl font-semibold text-red-700">June 2016: The Attack Begins</h3>
-                        <p class="text-lg text-slate-600">~$60M in ETH is drained via a re-entrancy exploit.</p>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute -left-10 top-0 w-6 h-6 bg-green-500 rounded-full border-4 border-white"></div>
-                        <h3 class="text-xl font-semibold text-green-700">July 2016: The Ethereum Hard Fork</h3>
-                        <p class="text-lg text-slate-600">The community votes to roll back history, reversing the hack and splitting the chain.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 8: The Re-entrancy Loop -->
-            <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">The Re-entrancy Loop</h2>
-                <ol class="mt-6 list-decimal list-inside space-y-3 text-lg text-slate-700 max-w-4xl mx-auto">
-                    <li>Attacker Contract calls <code class="bg-slate-200 px-1 rounded">withdraw()</code> on The DAO Contract.</li>
-                    <li>The DAO checks attacker's balance (<span class="text-green-600 font-semibold">VALID</span>).</li>
-                    <li>The DAO sends ETH to the Attacker Contract.</li>
-                    <li>The ETH transfer triggers the Attacker's <code class="bg-slate-200 px-1 rounded">fallback()</code> function.</li>
-                    <li>The <code class="bg-slate-200 px-1 rounded">fallback()</code> function immediately calls <code class="bg-slate-200 px-1 rounded">withdraw()</code> again (<strong class="text-red-600">RE-ENTERING</strong>).</li>
-                    <li>Go back to Step 2. The DAO checks the balance again—it's still valid because it <strong class="text-red-600">hasn't been updated yet!</strong></li>
-                </ol>
-            </div>
-            
-            <!-- Slide 9: The Aftermath -->
-            <div class="slide">
-                 <h2 class="text-3xl font-bold text-slate-800 text-center">The Aftermath: A Community Divided</h2>
-                 <div class="mt-8 flex flex-col items-center">
-                     <img src="https://placehold.co/600x200/e0e7ff/4338ca?text=Blockchain+Fork" alt="Diagram of blockchain splitting" class="rounded-lg">
-                     <div class="mt-6 grid md:grid-cols-2 gap-8 w-full max-w-4xl">
-                         <div class="p-4 border border-green-300 bg-green-50 rounded-lg">
-                             <h3 class="text-2xl font-bold text-green-800">Ethereum (ETH)</h3>
-                             <p class="mt-2 text-lg text-green-700">History was rolled back. The hack was reversed.</p>
-                         </div>
-                         <div class="p-4 border border-slate-300 bg-slate-50 rounded-lg">
-                             <h3 class="text-2xl font-bold text-slate-800">Ethereum Classic (ETC)</h3>
-                             <p class="mt-2 text-lg text-slate-700">Immutability was upheld. The hack remained.</p>
-                         </div>
-                     </div>
-                 </div>
-            </div>
-
-            <!-- Slide 10: Common Vulnerabilities -->
-            <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">A Rogue's Gallery of Common Vulnerabilities</h2>
-                <div class="mt-4 overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead class="bg-slate-100">
-                            <tr>
-                                <th class="p-2 border">Vulnerability</th>
-                                <th class="p-2 border">Description</th>
-                                <th class="p-2 border">Primary Mitigation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b"><td class="p-2 border font-semibold">Re-entrancy</td><td class="p-2 border">External call allows a function to be re-entered before state is updated.</td><td class="p-2 border text-green-700 font-semibold">Checks-Effects-Interactions</td></tr>
-                            <tr class="border-b"><td class="p-2 border font-semibold">Integer Overflow/Underflow</td><td class="p-2 border">Arithmetic operation wraps around min/max value.</td><td class="p-2 border text-green-700 font-semibold">Solidity >=0.8.0 or SafeMath</td></tr>
-                            <tr class="border-b"><td class="p-2 border font-semibold">Timestamp Dependence</td><td class="p-2 border">Using manipulable block timestamps for critical logic.</td><td class="p-2 border text-green-700 font-semibold">Use oracles for randomness</td></tr>
-                             <tr class="border-b"><td class="p-2 border font-semibold">Unprotected Functions</td><td class="p-2 border">Critical functions lack proper access control.</td><td class="p-2 border text-green-700 font-semibold">Explicit visibility & access control</td></tr>
-                            <tr class="border-b"><td class="p-2 border font-semibold">Unchecked External Calls</td><td class="p-2 border">Failing to check the return value of an external call.</td><td class="p-2 border text-green-700 font-semibold">Check boolean return values</td></tr>
-                            <tr><td class="p-2 border font-semibold">Gas Limit / DoS</td><td class="p-2 border">Unbounded loop can exceed block gas limit.</td><td class="p-2 border text-green-700 font-semibold">Favor withdrawal patterns</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Slide 11: Checks-Effects-Interactions -->
-            <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">The Golden Rule: Checks-Effects-Interactions</h2>
-                <div class="mt-10 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
+                 <h2 class="text-3xl font-bold text-slate-800 text-center">The Golden Rule: How to Stop Re-entrancy</h2>
+                 <p class="text-center mt-2 text-xl text-slate-500">The "Checks-Effects-Interactions" Pattern</p>
+                 <div class="mt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
                     <div class="p-6 bg-blue-100 rounded-lg w-full md:w-1/3">
                         <div class="text-3xl">🔎</div>
                         <h3 class="text-2xl font-bold mt-2">1. CHECKS</h3>
-                        <p class="mt-2 font-mono bg-white p-2 rounded">require(balance >= amount);</p>
+                        <p class="mt-2 text-lg">First, verify everything (e.g., balance is sufficient).</p>
                     </div>
                     <div class="text-4xl font-bold text-slate-400">&rarr;</div>
                      <div class="p-6 bg-yellow-100 rounded-lg w-full md:w-1/3">
                         <div class="text-3xl">✏️</div>
                         <h3 class="text-2xl font-bold mt-2">2. EFFECTS</h3>
-                        <p class="mt-2 font-mono bg-white p-2 rounded">balance -= amount;</p>
+                        <p class="mt-2 text-lg">Second, update the state (e.g., set balance to zero).</p>
                     </div>
                     <div class="text-4xl font-bold text-slate-400">&rarr;</div>
                      <div class="p-6 bg-green-100 rounded-lg w-full md:w-1/3">
                         <div class="text-3xl">📤</div>
                         <h3 class="text-2xl font-bold mt-2">3. INTERACTIONS</h3>
-                        <p class="mt-2 font-mono bg-white p-2 rounded">msg.sender.call{...};</p>
+                        <p class="mt-2 text-lg">Finally, send the money.</p>
                     </div>
                 </div>
             </div>
             
-            <!-- Slide 12: PoLP & SoD -->
+            <!-- Slide 7: More Common Attacks (Simplified) -->
             <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">Limiting Power: PoLP & SoD</h2>
-                <div class="mt-8 grid md:grid-cols-2 gap-12">
-                    <div class="text-center p-6 border-2 border-dashed border-slate-300 rounded-lg">
-                        <h3 class="text-3xl font-bold text-slate-700">Principle of Least Privilege (PoLP)</h3>
-                        <p class="mt-4 text-xl">Grant only the minimum permissions necessary for a function.</p>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">More Common Attacks (Simplified)</h2>
+                <div class="mt-8 grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="p-4 border rounded-lg">
+                        <h3 class="text-2xl font-bold text-slate-700">Integer Overflow</h3>
+                        <p class="mt-2 text-lg"><strong>What it is:</strong> A math error where `255 + 1` becomes `0`. Hackers use this to get free tokens.</p>
+                        <p class="mt-2 text-green-700 font-semibold"><strong>How to Fix:</strong> Use modern Solidity versions (0.8.0+) which check for this automatically.</p>
                     </div>
-                    <div class="text-center p-6 border-2 border-dashed border-slate-300 rounded-lg">
-                        <h3 class="text-3xl font-bold text-slate-700">Separation of Duties (SoD)</h3>
-                        <p class="mt-4 text-xl">Ensure no single entity controls a critical process from start to finish.</p>
+                     <div class="p-4 border rounded-lg">
+                        <h3 class="text-2xl font-bold text-slate-700">Unprotected Functions</h3>
+                        <p class="mt-2 text-lg"><strong>What it is:</strong> Forgetting to secure an admin function, letting anyone become the owner.</p>
+                        <p class="mt-2 text-green-700 font-semibold"><strong>How to Fix:</strong> Restrict access to critical functions so only the owner can call them.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 13: Practical Implementations -->
+            <!-- Slide 8: Your Security Toolkit -->
             <div class="slide">
-                 <h2 class="text-3xl font-bold text-slate-800 text-center">Practical Implementations</h2>
-                <div class="mt-8 grid md:grid-cols-2 gap-12">
-                    <div class="p-6 bg-slate-50 rounded-lg">
-                        <h3 class="text-3xl font-bold text-slate-700">Role-Based Access Control (RBAC)</h3>
-                        <p class="mt-4 text-xl">Assign permissions to roles (MINTER, PAUSER), not individual addresses.</p>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">Your Security Toolkit</h2>
+                <p class="text-center mt-2 text-xl text-slate-500">Key practices for building secure contracts.</p>
+                 <div class="mt-8 grid grid-cols-2 gap-8 text-center max-w-4xl mx-auto">
+                    <div class="flex flex-col items-center p-4 bg-slate-50 rounded-lg">
+                        <div class="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center text-3xl">📚</div>
+                        <h3 class="mt-4 text-xl font-semibold">Use Audited Libraries</h3>
+                        <p>Don't reinvent the wheel. Use battle-tested code like OpenZeppelin.</p>
                     </div>
-                    <div class="p-6 bg-slate-50 rounded-lg">
-                        <h3 class="text-3xl font-bold text-slate-700">Multi-Signature Wallets (Multisig)</h3>
-                        <p class="mt-4 text-xl">A contract requiring M-of-N keys to approve a transaction.</p>
+                    <div class="flex flex-col items-center p-4 bg-slate-50 rounded-lg">
+                        <div class="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center text-3xl">🔐</div>
+                        <h3 class="mt-4 text-xl font-semibold">Use a Multisig</h3>
+                        <p>Require multiple people to approve critical actions. No single point of failure.</p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Slide 14: Developer's Toolkit -->
-            <div class="slide">
-                 <h2 class="text-3xl font-bold text-slate-800 text-center">The Developer's Toolkit</h2>
-                 <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">🔬</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Minimize Attack Surface</h3>
+                    <div class="flex flex-col items-center p-4 bg-slate-50 rounded-lg">
+                        <div class="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center text-3xl">🔬</div>
+                        <h3 class="mt-4 text-xl font-semibold">Keep it Simple</h3>
+                        <p>Less code means fewer places for bugs to hide.</p>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">📚</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Use Audited Libraries</h3>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl">❗</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Handle Errors</h3>
-                    </div>
-                     <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center text-4xl">🛑</div>
-                        <h3 class="mt-4 text-2xl font-semibold">Add a Fail-Safe</h3>
+                     <div class="flex flex-col items-center p-4 bg-red-50 rounded-lg">
+                        <div class="w-20 h-20 bg-red-200 rounded-full flex items-center justify-center text-3xl">🛑</div>
+                        <h3 class="mt-4 text-xl font-semibold">Add a Fail-Safe</h3>
+                        <p>Include an emergency "pause" button to stop the contract if something goes wrong.</p>
                     </div>
                 </div>
             </div>
             
-            <!-- Slide 15: Security Lifecycle -->
+            <!-- Slide 9: Security is a Process -->
             <div class="slide">
                 <div class="flex flex-col justify-center items-center text-center h-[550px]">
                     <h2 class="text-4xl font-bold text-slate-800">Security is a Process, Not a Product</h2>
                     <img src="https://placehold.co/600x250/f3f4f6/1f2937?text=Design → Code → Test → Audit → Monitor ↻" alt="Circular diagram of security lifecycle" class="my-8 rounded-lg">
+                     <p class="text-2xl text-slate-700">For any project with real value, a <strong class="text-indigo-600">professional, third-party audit</strong> is non-negotiable.</p>
                 </div>
             </div>
 
-            <!-- Slide 16: Key Takeaways -->
+            <!-- Slide 10: Key Takeaways -->
             <div class="slide">
-                <h2 class="text-3xl font-bold text-slate-800 text-center">Key Takeaways for Secure Development</h2>
+                <h2 class="text-3xl font-bold text-slate-800 text-center">Key Takeaways</h2>
                 <ul class="mt-8 list-none space-y-4 max-w-3xl mx-auto">
-                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Always use the Checks-Effects-Interactions pattern.</li>
-                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Enforce Least Privilege (e.g., with Multisigs & RBAC).</li>
-                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Keep it simple. Minimize the attack surface.</li>
-                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Use audited, community-trusted libraries.</li>
-                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Implement a "Pausable" circuit breaker.</li>
-                    <li class="p-4 bg-red-100 text-red-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">⚠️</span>Never deploy without a professional, third-party audit.</li>
+                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Always use the <strong>Checks-Effects-Interactions</strong> pattern.</li>
+                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Keep your contracts as <strong>simple as possible</strong>.</li>
+                    <li class="p-4 bg-green-100 text-green-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">✅</span>Use <strong>audited libraries</strong> and have a <strong>fail-safe</strong> plan.</li>
+                    <li class="p-4 bg-red-100 text-red-800 text-2xl font-semibold rounded-lg flex items-center"><span class="mr-4 text-3xl">⚠️</span><strong>Never deploy without a professional audit.</strong></li>
                 </ul>
             </div>
             
-            <!-- Slide 17: Conclusion -->
+            <!-- Slide 11: Conclusion -->
             <div class="slide">
                 <div class="flex flex-col justify-center items-center text-center h-[550px]">
                     <h1 class="text-4xl md:text-5xl font-bold text-slate-800">Thank You</h1>
@@ -331,7 +222,7 @@
                 Prev
             </button>
             <div id="slide-counter" class="text-slate-500 font-medium">
-                Slide 1 / 17
+                Slide 1 / 11
             </div>
             <button id="next-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
                 Next
