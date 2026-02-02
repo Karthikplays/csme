@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabin-Karp Algorithm Visualizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+        
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .highlight-line {
+            background-color: rgba(56, 189, 248, 0.2);
+            border-left: 4px solid #38bdf8;
+        }
+
+        .char-box {
+            transition: all 0.3s ease;
+        }
+
+        .active-window {
+            background-color: rgba(56, 189, 248, 0.3);
+            border: 2px solid #38bdf8;
+        }
+
+        .match {
+            background-color: rgba(34, 197, 94, 0.3);
+            border: 2px solid #22c55e;
+        }
+
+        .mismatch {
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 2px solid #ef4444;
+        }
+
+        .hash-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(8px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-sky-400 mb-2">Rabin-Karp Visualizer</h1>
+            <p class="text-slate-400">Step through the rolling hash string searching algorithm</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Side: Code Execution -->
+            <div class="space-y-4">
+                <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-700 shadow-2xl">
+                    <div class="bg-slate-800 px-4 py-2 flex justify-between items-center border-b border-slate-700">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">RabinKarp.java</span>
+                        <div class="flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                    <div id="code-container" class="p-4 text-sm code-font leading-relaxed overflow-y-auto max-h-[500px]">
+                        <!-- Code lines will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex flex-wrap items-center justify-center gap-4 bg-slate-800 p-4 rounded-xl border border-slate-700">
+                    <button onclick="reset()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition font-medium">Reset</button>
+                    <button onclick="prevStep()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition font-medium">Previous</button>
+                    <button onclick="nextStep()" class="px-6 py-2 bg-sky-600 hover:bg-sky-500 rounded-lg transition font-bold shadow-lg shadow-sky-900/20">Next Step</button>
+                    <div class="text-xs text-slate-400 ml-2" id="step-counter">Step: 0</div>
+                </div>
+            </div>
+
+            <!-- Right Side: Visualization & State -->
+            <div class="space-y-6">
+                <!-- Text Visualizer -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
+                    <h3 class="text-sm font-semibold text-slate-400 mb-4 uppercase tracking-widest">Live Execution</h3>
+                    
+                    <div class="mb-6">
+                        <label class="block text-xs text-slate-500 mb-2 italic">Text (n=10)</label>
+                        <div id="text-grid" class="flex flex-wrap gap-1"></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-xs text-slate-500 mb-2 italic">Pattern (m=3)</label>
+                        <div id="pattern-grid" class="flex flex-wrap gap-1"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="hash-card p-4 rounded-lg border border-slate-600">
+                            <div class="text-xs text-slate-500 uppercase mb-1">Pattern Hash (p)</div>
+                            <div id="p-hash-val" class="text-2xl font-bold text-sky-400">-</div>
+                        </div>
+                        <div class="hash-card p-4 rounded-lg border border-slate-600">
+                            <div class="text-xs text-slate-500 uppercase mb-1">Window Hash (t)</div>
+                            <div id="t-hash-val" class="text-2xl font-bold text-orange-400">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 min-h-[150px]">
+                    <h3 class="text-sm font-semibold text-sky-400 mb-2 uppercase tracking-widest">Logic Explanation</h3>
+                    <p id="explanation" class="text-slate-300 text-sm leading-relaxed">
+                        Press "Next Step" to start the visualization.
+                    </p>
+                </div>
+
+                <!-- Console Output -->
+                <div class="bg-black p-4 rounded-xl border border-slate-800 code-font text-xs">
+                    <div class="text-green-500 mb-2 underline">Console Output</div>
+                    <div id="console-out" class="space-y-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const codeLines = [
+            "public class RabinKarp {",
+            "    static final int d = 256;",
+            "    public static void search(String text, String pattern, int q) {",
+            "        int m = pattern.length();",
+            "        int n = text.length();",
+            "        int pHash = 0; int tHash = 0; int h = 1;",
+            "        for (int i = 0; i < m - 1; i++) {",
+            "            h = (h * d) % q;",
+            "        }",
+            "        for (int i = 0; i < m; i++) {",
+            "            pHash = (d * pHash + pattern.charAt(i)) % q;",
+            "            tHash = (d * tHash + text.charAt(i)) % q;",
+            "        }",
+            "        for (int i = 0; i <= n - m; i++) {",
+            "            if (pHash == tHash) {",
+            "                int j;",
+            "                for (j = 0; j < m; j++) {",
+            "                    if (text.charAt(i + j) != pattern.charAt(j)) break;",
+            "                }",
+            "                if (j == m) {",
+            "                    System.out.println(\"Pattern found at index \" + i);",
+            "                }",
+            "            }",
+            "            if (i < n - m) {",
+            "                tHash = (d * (tHash - text.charAt(i) * h) + text.charAt(i + m)) % q;",
+            "                if (tHash < 0) tHash = tHash + q;",
+            "            }",
+            "        }",
+            "    }",
+            "}"
+        ];
+
+        const text = "ABCCDDAEFG";
+        const pattern = "CDD";
+        const q = 101;
+        const d = 256;
+
+        let currentStep = 0;
+        let states = [];
+
+        function initCode() {
+            const container = document.getElementById('code-container');
+            container.innerHTML = codeLines.map((line, i) => 
+                `<div id="line-${i}" class="px-2 py-0.5 whitespace-pre transition-colors duration-200">${line}</div>`
+            ).join('');
+        }
+
+        function initGrids() {
+            const textGrid = document.getElementById('text-grid');
+            const patternGrid = document.getElementById('pattern-grid');
+            
+            textGrid.innerHTML = text.split('').map((char, i) => 
+                `<div id="text-char-${i}" class="w-8 h-10 border border-slate-600 flex items-center justify-center font-bold text-slate-300 rounded char-box">${char}</div>`
+            ).join('');
+
+            patternGrid.innerHTML = pattern.split('').map((char, i) => 
+                `<div class="w-8 h-10 border border-slate-600 flex items-center justify-center font-bold text-sky-400 rounded">${char}</div>`
+            ).join('');
+        }
+
+        function generateStates() {
+            let s = [];
+            let m = pattern.length;
+            let n = text.length;
+            let pHash = 0;
+            let tHash = 0;
+            let h = 1;
+
+            // Initial variables
+            s.push({ line: 3, msg: "Initialize m (pattern length) to 3", pHash: 0, tHash: 0, h: 1, i: null });
+            s.push({ line: 4, msg: "Initialize n (text length) to 10", pHash: 0, tHash: 0, h: 1, i: null });
+            s.push({ line: 5, msg: "Initialize pHash, tHash to 0, and h to 1", pHash: 0, tHash: 0, h: 1, i: null });
+
+            // h calculation
+            for (let i = 0; i < m - 1; i++) {
+                h = (h * d) % q;
+                s.push({ line: 7, msg: `Calculate h = pow(d, m-1) % q. Current h: ${h}`, pHash, tHash, h, i });
+            }
+
+            // Initial Hash calculation
+            for (let i = 0; i < m; i++) {
+                pHash = (d * pHash + pattern.charCodeAt(i)) % q;
+                tHash = (d * tHash + text.charCodeAt(i)) % q;
+                s.push({ line: 10, msg: `Updating initial hashes. pHash: ${pHash}, tHash: ${tHash}`, pHash, tHash, h, i });
+            }
+
+            // Sliding Window
+            for (let i = 0; i <= n - m; i++) {
+                s.push({ line: 13, msg: `Iteration i = ${i}. Sliding window...`, pHash, tHash, h, i, windowIdx: i });
+                
+                s.push({ line: 14, msg: `Comparing pHash (${pHash}) and tHash (${tHash})`, pHash, tHash, h, i, windowIdx: i });
+                
+                if (pHash === tHash) {
+                    s.push({ line: 15, msg: "Hash values match! Perform character-by-character check.", pHash, tHash, h, i, windowIdx: i });
+                    let j;
+                    for (j = 0; j < m; j++) {
+                        s.push({ line: 17, msg: `Checking if text[${i+j}] matches pattern[${j}]`, pHash, tHash, h, i, windowIdx: i, checkIdx: i+j });
+                        if (text[i + j] !== pattern[j]) {
+                            s.push({ line: 17, msg: `Mismatch at text[${i+j}]!`, pHash, tHash, h, i, windowIdx: i, checkIdx: i+j, mismatch: true });
+                            break;
+                        }
+                    }
+                    if (j === m) {
+                        s.push({ line: 20, msg: `Full match found at index ${i}!`, pHash, tHash, h, i, windowIdx: i, found: true });
+                    }
+                }
+
+                if (i < n - m) {
+                    s.push({ line: 24, msg: `Calculating rolling hash for next window. Removing ${text[i]} and adding ${text[i+m]}`, pHash, tHash, h, i, windowIdx: i });
+                    tHash = (d * (tHash - text.charCodeAt(i) * h) + text.charCodeAt(i + m)) % q;
+                    if (tHash < 0) {
+                        tHash = tHash + q;
+                        s.push({ line: 26, msg: `Corrected negative hash to ${tHash}`, pHash, tHash, h, i, windowIdx: i });
+                    }
+                }
+            }
+            s.push({ line: 28, msg: "Search complete.", pHash, tHash, h, i: 10, windowIdx: -1 });
+            return s;
+        }
+
+        function updateUI() {
+            const state = states[currentStep];
+            
+            // Highlight Code
+            document.querySelectorAll('#code-container div').forEach(div => div.classList.remove('highlight-line'));
+            const lineEl = document.getElementById(`line-${state.line}`);
+            if (lineEl) lineEl.classList.add('highlight-line');
+
+            // Update Stats
+            document.getElementById('p-hash-val').innerText = state.pHash;
+            document.getElementById('t-hash-val').innerText = state.tHash;
+            document.getElementById('explanation').innerText = state.msg;
+            document.getElementById('step-counter').innerText = `Step: ${currentStep} / ${states.length - 1}`;
+
+            // Update Grid
+            document.querySelectorAll('.char-box').forEach(box => {
+                box.classList.remove('active-window', 'match', 'mismatch');
+            });
+
+            if (state.windowIdx !== undefined && state.windowIdx >= 0) {
+                for (let k = 0; k < pattern.length; k++) {
+                    const el = document.getElementById(`text-char-${state.windowIdx + k}`);
+                    if (el) el.classList.add('active-window');
+                }
+            }
+
+            if (state.checkIdx !== undefined) {
+                const el = document.getElementById(`text-char-${state.checkIdx}`);
+                if (el) {
+                    el.classList.add(state.mismatch ? 'mismatch' : 'match');
+                }
+            }
+
+            if (state.found) {
+                const consoleOut = document.getElementById('console-out');
+                // Only add if not already there
+                if (!consoleOut.innerText.includes(`index ${state.i}`)) {
+                    const entry = document.createElement('div');
+                    entry.className = "text-white py-1";
+                    entry.innerHTML = `<span class="text-slate-500">></span> Pattern found at index ${state.i}`;
+                    consoleOut.appendChild(entry);
+                }
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < states.length - 1) {
+                currentStep++;
+                updateUI();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateUI();
+            }
+        }
+
+        function reset() {
+            currentStep = 0;
+            document.getElementById('console-out').innerHTML = '';
+            updateUI();
+        }
+
+        window.onload = () => {
+            initCode();
+            initGrids();
+            states = generateStates();
+            updateUI();
+        };
+    </script>
+</body>
+</html>
