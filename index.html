@@ -1,209 +1,340 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technology and Students: The Indian Cyber Scenario</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Scalability Architecture in Enterprise Cloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cloudBg: '#0b1120',
+            cloudPanel: '#111827',
+            cloudSoft: '#1f2937',
+            cloudAccent: '#38bdf8',
+            cloudAccentGlow: '#0ea5e9'
+          },
+          boxShadow: {
+            neon: '0 0 0 1px rgba(56,189,248,.25), 0 0 24px rgba(56,189,248,.25)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --r-main-font: 'Inter', sans-serif;
+      --r-heading-font: 'Inter', sans-serif;
+      --r-background-color: #0b1120;
+      --r-main-color: #f8fafc;
+      --r-heading-color: #f8fafc;
+      --r-link-color: #38bdf8;
+      --r-link-color-hover: #7dd3fc;
+      --r-selection-background-color: #0ea5e9;
+    }
+
+    .reveal { background: radial-gradient(circle at 20% 20%, #16213a 0%, #0b1120 45%, #060b16 100%); }
+    .reveal .slides { text-align: left; }
+    .reveal h1, .reveal h2, .reveal h3 { text-transform: none; letter-spacing: -0.02em; }
+    .glass-card {
+      background: linear-gradient(145deg, rgba(15,23,42,.92), rgba(17,24,39,.88));
+      border: 1px solid rgba(56,189,248,.24);
+      box-shadow: 0 0 0 1px rgba(56,189,248,.12), 0 12px 40px rgba(2,6,23,.55);
+      border-radius: 1rem;
+    }
+    .pulse-ring {
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(56,189,248,.8);
+      border-radius: 9999px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      box-shadow: 0 0 24px rgba(14,165,233,.45);
+    }
+    .pulse-ring::before,
+    .pulse-ring::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 2px solid rgba(56,189,248,.35);
+      border-radius: 9999px;
+      animation: pulse 2.4s infinite;
+    }
+    .pulse-ring::after { animation-delay: 1.2s; }
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: .85; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    .flow-step::after {
+      content: '→';
+      color: #38bdf8;
+      position: absolute;
+      right: -1.15rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 700;
+    }
+    .flow-step:last-child::after { display: none; }
+    @media (max-width: 1100px) {
+      .flow-step::after { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <div class="presentation-container">
-        <!-- Slide 1: Title Slide -->
-        <div class="slide active" data-slide="1">
-            <div class="slide-content title-slide">
-                <h1 class="main-title">Technology and Students: The Indian Cyber Scenario</h1>
-                <p class="subtitle">A Look at the Opportunities and Risks in Our Digital World</p>
-                <div class="date-info">October 6, 2025</div>
-                <br>
-                <h1 class="main-title">Presented By</h1>
-                <br>
-                <p class="subtitle">P.Karthik -22011P0531</p>
-                
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <div class="h-full w-full flex flex-col justify-center gap-8">
+          <div class="flex items-center justify-between gap-10">
+            <div>
+              <p class="text-sky-300 uppercase tracking-[0.2em] text-base mb-4">Enterprise Cloud Architecture</p>
+              <h1 class="text-5xl font-extrabold leading-tight mb-4">Dynamic Scalability Architecture</h1>
+              <p class="text-2xl text-slate-200">Engineering the Enterprise Cloud for Unpredictable Workloads</p>
             </div>
-        </div>
-
-        <!-- Slide 2: The Modern Indian Student is Digital -->
-        <div class="slide" data-slide="2">
-            <div class="slide-content">
-                <h2 class="slide-title">The Modern Indian Student is Digital</h2>
-                <ul class="bullet-list">
-                    <li><strong>We are always online!</strong> Nearly 95% of students (ages 15-29) in India use the internet</li>
-                    <li><strong>No Urban-Rural Divide:</strong> Internet usage is almost the same in villages (92.7%) and cities (95.7%)</li>
-                    <li><strong>Mobile First:</strong> Almost everyone uses a smartphone to access the internet (96% of users)</li>
-                    <li><strong>Digital Payments are Normal:</strong> An incredible 99.5% of students who use online banking use UPI</li>
-                    <li class="key-takeaway"><strong>Key Takeaway:</strong> Our digital identity is directly linked to our social and financial lives</li>
-                </ul>
-                <div class="stat-highlight">Current 2025: 806+ million internet users, 55.3% penetration</div>
+            <div class="pulse-ring">
+              <i class="fa-solid fa-network-wired text-6xl text-sky-300"></i>
             </div>
+          </div>
+          <div class="glass-card p-5 text-slate-200 text-lg">
+            <span class="text-sky-300 font-semibold">Focus:</span> Building self-adjusting cloud systems that align cost, capacity, and performance in real time.
+          </div>
         </div>
+      </section>
 
-        <!-- Slide 3: What Are We Doing Online? -->
-        <div class="slide" data-slide="3">
-            <div class="slide-content">
-                <h2 class="slide-title">What Are We Doing Online?</h2>
-                <ul class="bullet-list">
-                    <li><strong>Social Media:</strong> The main activity. Used for connecting with friends, news, and information (Facebook & Instagram are most popular)</li>
-                    <li><strong>Online Gaming:</strong> A huge and growing industry. Many students spend several hours a week gaming</li>
-                    <li><strong>EdTech (Online Education):</strong> Our classes, notes, and assignments are now online, accelerated by the pandemic</li>
-                    <li><strong>Digital Payments:</strong> 18.4 billion UPI transactions monthly in 2025</li>
-                    <li class="challenge"><strong>The Challenge:</strong> We switch between social, gaming, and study apps on one device, making it easy to let our guard down</li>
-                </ul>
-                <div class="stat-highlight">Indians spend 6 hours 49 minutes online daily</div>
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Introduction: What is Dynamic Scalability?</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="glass-card p-6">
+            <h3 class="text-2xl font-semibold text-sky-300 mb-3"><i class="fa-solid fa-gauge-high mr-2"></i>Definition</h3>
+            <p class="text-xl text-slate-100 leading-relaxed">
+              Dynamic scalability is an architectural model that automates allocation of IT resources from shared pools based on predefined conditions and fluctuating workloads.
+            </p>
+          </div>
+          <div class="glass-card p-6">
+            <h3 class="text-2xl font-semibold text-sky-300 mb-3"><i class="fa-solid fa-robot mr-2"></i>Core Philosophy</h3>
+            <p class="text-xl text-slate-100 leading-relaxed">
+              Deliver efficient resource management without manual intervention, maintaining availability and cost efficiency under changing demand.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Scalability vs. Elasticity</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="glass-card p-6">
+            <h3 class="text-2xl font-semibold text-sky-300 mb-4"><i class="fa-solid fa-chart-line mr-2"></i>Scalability</h3>
+            <ul class="text-xl space-y-3 text-slate-100">
+              <li>• Long-term strategic capacity planning.</li>
+              <li>• Handles steady, persistent growth curves.</li>
+              <li>• Commonly tied to architecture evolution and baseline sizing.</li>
+              <li>• Goal: sustain higher normal-state throughput over time.</li>
+            </ul>
+          </div>
+          <div class="glass-card p-6">
+            <h3 class="text-2xl font-semibold text-sky-300 mb-4"><i class="fa-solid fa-bolt mr-2"></i>Elasticity</h3>
+            <ul class="text-xl space-y-3 text-slate-100">
+              <li>• Short-term tactical scaling behavior.</li>
+              <li>• Absorbs temporary demand spikes and drops.</li>
+              <li>• Usually pay-per-use and policy-driven.</li>
+              <li>• Goal: instantly match supply to real-time demand.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Core Components of the Architecture</h2>
+        <div class="grid grid-cols-3 gap-5 text-center">
+          <div class="glass-card p-5">
+            <i class="fa-solid fa-layer-group text-4xl text-sky-300 mb-3"></i>
+            <h3 class="text-2xl font-semibold mb-2">Resource Pools</h3>
+            <p class="text-lg text-slate-200">Pre-provisioned compute, storage, and network resources waiting to be consumed.</p>
+          </div>
+          <div class="glass-card p-5">
+            <i class="fa-solid fa-ear-listen text-4xl text-sky-300 mb-3"></i>
+            <h3 class="text-2xl font-semibold mb-2">Automated Scaling Listener</h3>
+            <p class="text-lg text-slate-200">Continuously monitors thresholds, SLO indicators, and event streams to trigger scaling logic.</p>
+          </div>
+          <div class="glass-card p-5">
+            <i class="fa-solid fa-copy text-4xl text-sky-300 mb-3"></i>
+            <h3 class="text-2xl font-semibold mb-2">Resource Replication Mechanism</h3>
+            <p class="text-lg text-slate-200">Creates, clones, or removes service instances through policy-driven orchestration.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Type 1: Dynamic Horizontal Scaling (Scale-Out/In)</h2>
+        <div class="grid grid-cols-5 gap-5 items-stretch">
+          <div class="col-span-3 glass-card p-6">
+            <p class="text-xl text-slate-100 leading-relaxed mb-4">
+              Horizontal scaling duplicates or removes IT resource instances (virtual machines, containers, pods) to absorb load changes while keeping each instance size constant.
+            </p>
+            <h3 class="text-2xl font-semibold text-sky-300 mb-3">Ideal Use Cases</h3>
+            <ul class="text-lg text-slate-100 space-y-2">
+              <li>• Stateless web applications</li>
+              <li>• Microservices platforms</li>
+              <li>• API gateways and web server farms</li>
+            </ul>
+          </div>
+          <div class="col-span-2 glass-card p-6 flex flex-col justify-center">
+            <div class="flex items-center justify-center gap-3 text-sky-300 text-2xl mb-2">
+              <i class="fa-solid fa-server"></i><i class="fa-solid fa-server"></i><i class="fa-solid fa-server"></i>
             </div>
-        </div>
-
-        <!-- Slide 4: Major Threats We Face (Part 1) -->
-        <div class="slide" data-slide="4">
-            <div class="slide-content">
-                <h2 class="slide-title">Major Threats We Face (Part 1)</h2>
-                <div class="threat-section">
-                    <div class="threat-item">
-                        <h3>1. Cyberbullying & Harassment</h3>
-                        <ul>
-                            <li>India has a high rate of online bullying</li>
-                            <li>It happens on social media, in games, and even in online classrooms</li>
-                            <li>It can cause serious emotional distress</li>
-                        </ul>
-                    </div>
-                    <div class="threat-item">
-                        <h3>2. Phishing & Financial Scams</h3>
-                        <ul>
-                            <li>Fake emails or messages tricking you into giving away passwords or bank details</li>
-                            <li>Common scams include fake job offers, scholarships, or loan applications</li>
-                            <li class="stat-red">₹7,000 crore lost to cyber frauds in first half of 2025</li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="text-center text-slate-200 text-lg">Instances added or removed behind a load balancer.</div>
+            <div class="mt-4 h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div class="h-full w-3/4 bg-sky-400"></div>
             </div>
+          </div>
         </div>
+      </section>
 
-        <!-- Slide 5: Major Threats We Face (Part 2) -->
-        <div class="slide" data-slide="5">
-            <div class="slide-content">
-                <h2 class="slide-title">Major Threats We Face (Part 2)</h2>
-                <div class="threat-section">
-                    <div class="threat-item">
-                        <h3>3. "Digital Arrest" Scam</h3>
-                        <ul>
-                            <li>Scammers pretend to be police or CBI officials</li>
-                            <li>They use fear and pressure to accuse you of a fake crime and demand money</li>
-                            <li>This is a serious and growing psychological scam</li>
-                        </ul>
-                    </div>
-                    <div class="threat-item">
-                        <h3>4. Sextortion</h3>
-                        <ul>
-                            <li>Predators build fake online relationships to get private photos or videos</li>
-                            <li>They then use this content to blackmail victims for money or more content</li>
-                            <li class="stat-red">Over 3,000 cases of child pornography sharing reported between 2018-2022</li>
-                        </ul>
-                    </div>
-                </div>
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Type 2: Dynamic Vertical Scaling (Scale-Up/Down)</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="glass-card p-6">
+            <p class="text-xl text-slate-100 leading-relaxed mb-4">
+              Vertical scaling adjusts a single resource's processing capacity by adding or removing CPU, RAM, or I/O bandwidth without changing node count.
+            </p>
+            <h3 class="text-2xl font-semibold text-sky-300 mb-3">Typical Targets</h3>
+            <ul class="text-lg text-slate-100 space-y-2">
+              <li>• Monolithic legacy applications</li>
+              <li>• Heavy relational database servers</li>
+              <li>• Stateful workloads with strict locality constraints</li>
+            </ul>
+          </div>
+          <div class="glass-card p-6 flex flex-col justify-center gap-4">
+            <div class="flex items-center justify-between text-lg">
+              <span class="text-slate-300">CPU Cores</span><span class="text-sky-300 font-semibold">4 → 16</span>
             </div>
-        </div>
-
-        <!-- Slide 6: The Hidden Costs of Cyber Crime -->
-        <div class="slide" data-slide="6">
-            <div class="slide-content">
-                <h2 class="slide-title">The Hidden Costs of Cyber Crime</h2>
-                <div class="impact-intro">It's not just about losing money.</div>
-                <ul class="bullet-list">
-                    <li><strong>Mental Health Impact:</strong> Cyberbullying and scams can lead to severe anxiety, depression, and loss of self-esteem. It's a 24/7 problem that follows you home on your phone</li>
-                    <li><strong>Academic Performance Decline:</strong> The stress and distraction make it hard to focus on studies, leading to lower grades and disinterest in school</li>
-                    <li><strong>Erosion of Trust:</strong> Creates a fearful environment and can damage friendships and school culture</li>
-                </ul>
-                <div class="stat-highlight stat-red">National Impact: Over 22 lakh cybercrime cases reported in 2024 (4x increase from 2021)</div>
+            <div class="h-2 bg-slate-700 rounded-full"><div class="h-full w-4/5 bg-sky-400 rounded-full"></div></div>
+            <div class="flex items-center justify-between text-lg">
+              <span class="text-slate-300">Memory</span><span class="text-sky-300 font-semibold">16 GB → 64 GB</span>
             </div>
+            <div class="h-2 bg-slate-700 rounded-full"><div class="h-full w-5/6 bg-cyan-400 rounded-full"></div></div>
+            <div class="text-slate-200 text-base mt-2">Best where scaling out is difficult due to state consistency requirements.</div>
+          </div>
         </div>
+      </section>
 
-        <!-- Slide 7: How You Can Protect Yourself -->
-        <div class="slide" data-slide="7">
-            <div class="slide-content">
-                <h2 class="slide-title">How You Can Protect Yourself: Cyber Hygiene 101</h2>
-                <div class="defense-header">Your First Line of Defense is YOU!</div>
-                <ul class="bullet-list protection-list">
-                    <li><strong>Passwords are Key:</strong> Use strong, unique passwords for every account. Use a password manager</li>
-                    <li><strong>Enable MFA (Multi-Factor Authentication):</strong> This is a crucial second layer of security</li>
-                    <li><strong>Think Before You Post:</strong> Be careful with your privacy settings. Don't share personal details like your phone number or address publicly</li>
-                    <li><strong>Be Skeptical:</strong> Don't click on suspicious links or download files from unknown people. If it seems too good to be true, it probably is</li>
-                    <li><strong>Public Wi-Fi is Risky:</strong> Avoid doing banking or logging into important accounts on free, open Wi-Fi</li>
-                </ul>
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Type 3: Dynamic Relocation</h2>
+        <div class="grid grid-cols-5 gap-6 items-center">
+          <div class="col-span-3 glass-card p-6">
+            <p class="text-xl text-slate-100 leading-relaxed mb-4">
+              Dynamic relocation migrates a running IT resource to a different host with higher overall capacity when horizontal and vertical scaling limits are reached.
+            </p>
+            <ul class="text-lg text-slate-100 space-y-2">
+              <li>• Triggered by resource saturation, contention, or noisy-neighbor effects.</li>
+              <li>• Requires orchestration-aware scheduling and migration safeguards.</li>
+              <li>• Maintains service continuity while moving workloads to healthier infrastructure.</li>
+            </ul>
+          </div>
+          <div class="col-span-2 glass-card p-6 text-center">
+            <div class="flex items-center justify-center gap-4 text-3xl text-sky-300 mb-3">
+              <i class="fa-solid fa-server text-slate-400"></i>
+              <i class="fa-solid fa-arrow-right"></i>
+              <i class="fa-solid fa-server"></i>
             </div>
+            <p class="text-lg text-slate-200">Host migration to unlock higher aggregate capacity.</p>
+          </div>
         </div>
+      </section>
 
-        <!-- Slide 8: Who Else is Helping? -->
-        <div class="slide" data-slide="8">
-            <div class="slide-content">
-                <h2 class="slide-title">Who Else is Helping?</h2>
-                <div class="team-header">It's a Team Effort!</div>
-                <div class="help-sections">
-                    <div class="help-section">
-                        <h3>Educational Institutions:</h3>
-                        <ul>
-                            <li>Integrating cyber safety into the curriculum</li>
-                            <li>Encouraging "Cyber Clubs" for students to learn and lead awareness campaigns</li>
-                        </ul>
-                    </div>
-                    <div class="help-section">
-                        <h3>Government of India:</h3>
-                        <ul>
-                            <li>The IT Act, 2000 provides legal action against cybercrimes</li>
-                            <li>CERT-In is the national agency to handle cyber threats (1.59 million incidents reported in 2023)</li>
-                            <li><strong>National Cybercrime Helpline: Dial 1930</strong> to report a crime</li>
-                            <li>I4C (Indian Cyber Crime Coordination Centre) under MHA</li>
-                        </ul>
-                    </div>
-                </div>
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Automated Scaling Workflow (Step-by-Step)</h2>
+        <div class="flex flex-wrap gap-4">
+          <div class="flow-step relative glass-card p-4 flex-1 min-w-[180px]">
+            <div class="text-sky-300 font-bold text-lg mb-2">1</div>
+            <div class="text-lg text-slate-100">Workload spikes increase CPU, latency, and queue depth.</div>
+          </div>
+          <div class="flow-step relative glass-card p-4 flex-1 min-w-[180px]">
+            <div class="text-sky-300 font-bold text-lg mb-2">2</div>
+            <div class="text-lg text-slate-100">Scaling listener detects threshold breach in real time.</div>
+          </div>
+          <div class="flow-step relative glass-card p-4 flex-1 min-w-[180px]">
+            <div class="text-sky-300 font-bold text-lg mb-2">3</div>
+            <div class="text-lg text-slate-100">Policy engine evaluates guardrails and scaling strategy.</div>
+          </div>
+          <div class="flow-step relative glass-card p-4 flex-1 min-w-[180px]">
+            <div class="text-sky-300 font-bold text-lg mb-2">4</div>
+            <div class="text-lg text-slate-100">Replication mechanism launches additional instances.</div>
+          </div>
+          <div class="flow-step relative glass-card p-4 flex-1 min-w-[180px]">
+            <div class="text-sky-300 font-bold text-lg mb-2">5</div>
+            <div class="text-lg text-slate-100">Load balancer redistributes traffic to expanded capacity.</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-4xl font-bold mb-6">Cloud-Native Best Practices</h2>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="glass-card p-6">
+            <h3 class="text-2xl text-sky-300 font-semibold mb-3"><i class="fa-solid fa-cubes-stacked mr-2"></i>Design for Statelessness</h3>
+            <p class="text-lg text-slate-100">Avoid sticky sessions and externalize state into managed data layers for frictionless scale-out.</p>
+          </div>
+          <div class="glass-card p-6">
+            <h3 class="text-2xl text-sky-300 font-semibold mb-3"><i class="fa-solid fa-chart-area mr-2"></i>Deep Observability</h3>
+            <p class="text-lg text-slate-100">Instrument metrics, logs, and traces to make scaling decisions evidence-driven and auditable.</p>
+          </div>
+          <div class="glass-card p-6">
+            <h3 class="text-2xl text-sky-300 font-semibold mb-3"><i class="fa-solid fa-sliders mr-2"></i>Right-Size First</h3>
+            <p class="text-lg text-slate-100">Tune baseline resource requests and limits before depending entirely on auto-scaling loops.</p>
+          </div>
+          <div class="glass-card p-6">
+            <h3 class="text-2xl text-sky-300 font-semibold mb-3"><i class="fa-brands fa-docker mr-2"></i>Use Orchestration</h3>
+            <p class="text-lg text-slate-100">Leverage Kubernetes HPA and cluster autoscaling to coordinate pod-level and node-level elasticity.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="h-full flex flex-col justify-center gap-7">
+          <h2 class="text-5xl font-extrabold">Conclusion &amp; Q&amp;A</h2>
+          <div class="glass-card p-7 text-2xl leading-relaxed text-slate-100">
+            “Dynamic Scalability aligns infrastructure costs directly with business demand, transforming IT from a bottleneck into a business enabler.”
+          </div>
+          <div class="grid grid-cols-2 gap-5">
+            <div class="glass-card p-5">
+              <h3 class="text-2xl text-sky-300 font-semibold mb-2">Key Outcome</h3>
+              <p class="text-lg text-slate-100">Resilient, cost-aware cloud platforms that adapt continuously to volatile enterprise workloads.</p>
             </div>
-        </div>
-
-        <!-- Slide 9: Conclusion -->
-        <div class="slide" data-slide="9">
-            <div class="slide-content">
-                <h2 class="slide-title">Conclusion</h2>
-                <ul class="bullet-list">
-                    <li>Technology is a powerful tool for learning and connecting</li>
-                    <li>However, this digital world has real dangers that affect our studies, mental health, and safety</li>
-                    <li class="stat-red">Current Reality: 369 million malware detections across 8.44 million endpoints in 2024</li>
-                    <li><strong>The Solution is Shared Responsibility:</strong>
-                        <ul class="sub-list">
-                            <li>Students must be vigilant and practice good cyber hygiene</li>
-                            <li>Schools must educate and protect their infrastructure</li>
-                            <li>The Government must provide strong laws and support</li>
-                        </ul>
-                    </li>
-                    <li class="final-message"><strong>Stay Alert, Stay Safe!</strong></li>
-                </ul>
+            <div class="glass-card p-5">
+              <h3 class="text-2xl text-sky-300 font-semibold mb-2">Q&amp;A / Contact</h3>
+              <p class="text-lg text-slate-100">Questions, architecture reviews, and implementation discussions welcome.</p>
+              <p class="text-lg text-sky-300 mt-2">architect-team@enterprisecloud.example</p>
             </div>
+          </div>
         </div>
-
-        <!-- Slide 10: Thank You -->
-        <div class="slide" data-slide="10">
-            <div class="slide-content thank-you-slide">
-                <h1 class="thank-you-title">Thank You</h1>
-                <div class="questions">Questions?</div>
-                <div class="final-reminders">
-                    <p>Remember: <strong>Dial 1930</strong> for cybercrime reporting</p>
-                    <p>Stay informed, stay protected</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navigation Controls -->
-        <div class="nav-controls">
-            <button id="prevBtn" class="btn btn--outline nav-btn">← Previous</button>
-            <div class="slide-counter">
-                <span id="currentSlide">1</span> of <span id="totalSlides">10</span>
-            </div>
-            <button id="nextBtn" class="btn btn--primary nav-btn">Next →</button>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
+      </section>
     </div>
+  </div>
 
-    <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      width: 1280,
+      height: 720,
+      margin: 0.06
+    });
+  </script>
 </body>
 </html>
